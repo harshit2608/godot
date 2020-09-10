@@ -34,24 +34,16 @@
 
 Thread *ThreadDummy::create(ThreadCreateCallback p_callback, void *p_user, const Thread::Settings &p_settings) {
 	return memnew(ThreadDummy);
-};
+}
 
 void ThreadDummy::make_default() {
 	Thread::create_func = &ThreadDummy::create;
-};
-
-SemaphoreOld *SemaphoreDummy::create() {
-	return memnew(SemaphoreDummy);
-};
-
-void SemaphoreDummy::make_default() {
-	SemaphoreOld::create_func = &SemaphoreDummy::create;
-};
+}
 
 RWLock *RWLockDummy::create() {
 	return memnew(RWLockDummy);
-};
+}
 
 void RWLockDummy::make_default() {
 	RWLock::create_func = &RWLockDummy::create;
-};
+}

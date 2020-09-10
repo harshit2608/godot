@@ -20,9 +20,10 @@
 		    file.close()
 		    return content
 		[/codeblock]
+		In the example above, the file will be saved in the user data folder as specified in the [url=https://docs.godotengine.org/en/latest/tutorials/io/data_paths.html]Data paths[/url] documentation.
 	</description>
 	<tutorials>
-		<link>https://docs.godotengine.org/en/latest/getting_started/step_by_step/filesystem.html</link>
+		<link title="File system">https://docs.godotengine.org/en/latest/getting_started/step_by_step/filesystem.html</link>
 	</tutorials>
 	<methods>
 		<method name="close">
@@ -54,28 +55,28 @@
 			<return type="int">
 			</return>
 			<description>
-				Returns the next 16 bits from the file as an integer.
+				Returns the next 16 bits from the file as an integer. See [method store_16] for details on what values can be stored and retrieved this way.
 			</description>
 		</method>
 		<method name="get_32" qualifiers="const">
 			<return type="int">
 			</return>
 			<description>
-				Returns the next 32 bits from the file as an integer.
+				Returns the next 32 bits from the file as an integer. See [method store_32] for details on what values can be stored and retrieved this way.
 			</description>
 		</method>
 		<method name="get_64" qualifiers="const">
 			<return type="int">
 			</return>
 			<description>
-				Returns the next 64 bits from the file as an integer.
+				Returns the next 64 bits from the file as an integer. See [method store_64] for details on what values can be stored and retrieved this way.
 			</description>
 		</method>
 		<method name="get_8" qualifiers="const">
 			<return type="int">
 			</return>
 			<description>
-				Returns the next 8 bits from the file as an integer.
+				Returns the next 8 bits from the file as an integer. See [method store_8] for details on what values can be stored and retrieved this way.
 			</description>
 		</method>
 		<method name="get_as_text" qualifiers="const">
@@ -256,6 +257,7 @@
 			</argument>
 			<description>
 				Opens an encrypted file in write or read mode. You need to pass a binary key to encrypt/decrypt it.
+				[b]Note:[/b] The provided key must be 32 bytes long.
 			</description>
 		</method>
 		<method name="open_encrypted_with_pass">
@@ -297,6 +299,26 @@
 			</argument>
 			<description>
 				Stores an integer as 16 bits in the file.
+				[b]Note:[/b] The [code]value[/code] should lie in the interval [code][0, 2^16 - 1][/code]. Any other value will overflow and wrap around.
+				To store a signed integer, use [method store_64] or store a signed integer from the interval [code][-2^15, 2^15 - 1][/code] (i.e. keeping one bit for the signedness) and compute its sign manually when reading. For example:
+				[codeblock]
+				const MAX_15B = 1 &lt;&lt; 15
+				const MAX_16B = 1 &lt;&lt; 16
+
+				func unsigned16_to_signed(unsigned):
+				    return (unsigned + MAX_15B) % MAX_16B - MAX_15B
+
+				func _ready():
+				    var f = File.new()
+				    f.open("user://file.dat", File.WRITE_READ)
+				    f.store_16(-42) # This wraps around and stores 65494 (2^16 - 42).
+				    f.store_16(121) # In bounds, will store 121.
+				    f.seek(0) # Go back to start to read the stored value.
+				    var read1 = f.get_16() # 65494
+				    var read2 = f.get_16() # 121
+				    var converted1 = unsigned16_to_signed(read1) # -42
+				    var converted2 = unsigned16_to_signed(read2) # 121
+				[/codeblock]
 			</description>
 		</method>
 		<method name="store_32">
@@ -306,6 +328,8 @@
 			</argument>
 			<description>
 				Stores an integer as 32 bits in the file.
+				[b]Note:[/b] The [code]value[/code] should lie in the interval [code][0, 2^32 - 1][/code]. Any other value will overflow and wrap around.
+				To store a signed integer, use [method store_64], or convert it manually (see [method store_16] for an example).
 			</description>
 		</method>
 		<method name="store_64">
@@ -315,6 +339,7 @@
 			</argument>
 			<description>
 				Stores an integer as 64 bits in the file.
+				[b]Note:[/b] The [code]value[/code] must lie in the interval [code][-2^63, 2^63 - 1][/code] (i.e. be a valid [int] value).
 			</description>
 		</method>
 		<method name="store_8">
@@ -324,6 +349,8 @@
 			</argument>
 			<description>
 				Stores an integer as 8 bits in the file.
+				[b]Note:[/b] The [code]value[/code] should lie in the interval [code][0, 255][/code]. Any other value will overflow and wrap around.
+				To store a signed integer, use [method store_64], or convert it manually (see [method store_16] for an example).
 			</description>
 		</method>
 		<method name="store_buffer">
@@ -424,16 +451,16 @@
 	</members>
 	<constants>
 		<constant name="READ" value="1" enum="ModeFlags">
-			Opens the file for read operations.
+			Opens the file for read operations. The cursor is positioned at the beginning of the file.
 		</constant>
 		<constant name="WRITE" value="2" enum="ModeFlags">
-			Opens the file for write operations. Create it if the file does not exist and truncate if it exists.
+			Opens the file for write operations. The file is created if it does not exist, and truncated if it does.
 		</constant>
 		<constant name="READ_WRITE" value="3" enum="ModeFlags">
-			Opens the file for read and write operations. Does not truncate the file.
+			Opens the file for read and write operations. Does not truncate the file. The cursor is positioned at the beginning of the file.
 		</constant>
 		<constant name="WRITE_READ" value="7" enum="ModeFlags">
-			Opens the file for read and write operations. Create it if the file does not exist and truncate if it exists.
+			Opens the file for read and write operations. The file is created if it does not exist, and truncated if it does. The cursor is positioned at the beginning of the file.
 		</constant>
 		<constant name="COMPRESSION_FASTLZ" value="0" enum="CompressionMode">
 			Uses the [url=http://fastlz.org/]FastLZ[/url] compression method.

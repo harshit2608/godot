@@ -46,15 +46,36 @@
 	@author AndreaCatania
 */
 
-ShapeBullet::ShapeBullet() :
-		margin(0.04) {}
+ShapeBullet::ShapeBullet() {
+}
 
-ShapeBullet::~ShapeBullet() {}
+ShapeBullet::~ShapeBullet() {
+	if (default_shape != nullptr) {
+		bulletdelete(default_shape);
+		default_shape = nullptr;
+	}
+}
 
 btCollisionShape *ShapeBullet::create_bt_shape(const Vector3 &p_implicit_scale, real_t p_extra_edge) {
 	btVector3 s;
 	G_TO_B(p_implicit_scale, s);
 	return create_bt_shape(s, p_extra_edge);
+}
+
+btCollisionShape *ShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+	if (p_extra_edge == 0.0 && (p_implicit_scale - btVector3(1, 1, 1)).length2() <= CMP_EPSILON) {
+		return default_shape;
+	}
+
+	return internal_create_bt_shape(p_implicit_scale, p_extra_edge);
+}
+
+void ShapeBullet::destroy_bt_shape(btCollisionShape *p_shape) const {
+	if (p_shape != default_shape && p_shape != old_default_shape) {
+		if (likely(p_shape != nullptr)) {
+			bulletdelete(p_shape);
+		}
+	}
 }
 
 btCollisionShape *ShapeBullet::prepare(btCollisionShape *p_btShape) const {
@@ -64,9 +85,20 @@ btCollisionShape *ShapeBullet::prepare(btCollisionShape *p_btShape) const {
 }
 
 void ShapeBullet::notifyShapeChanged() {
+	// Store the old shape ptr so to not lose the reference pointer.
+	old_default_shape = default_shape;
+	// Create the new default shape with the new data.
+	default_shape = internal_create_bt_shape(btVector3(1, 1, 1));
+
 	for (Map<ShapeOwnerBullet *, int>::Element *E = owners.front(); E; E = E->next()) {
 		ShapeOwnerBullet *owner = static_cast<ShapeOwnerBullet *>(E->key());
 		owner->shape_changed(owner->find_shape(this));
+	}
+
+	if (old_default_shape) {
+		// At this point now one has the old default shape; just delete it.
+		bulletdelete(old_default_shape);
+		old_default_shape = nullptr;
 	}
 }
 
@@ -81,7 +113,9 @@ void ShapeBullet::add_owner(ShapeOwnerBullet *p_owner) {
 
 void ShapeBullet::remove_owner(ShapeOwnerBullet *p_owner, bool p_permanentlyFromThisBody) {
 	Map<ShapeOwnerBullet *, int>::Element *E = owners.find(p_owner);
-	if (!E) return;
+	if (!E) {
+		return;
+	}
 	E->get()--;
 	if (p_permanentlyFromThisBody || 0 >= E->get()) {
 		owners.erase(E);
@@ -89,7 +123,6 @@ void ShapeBullet::remove_owner(ShapeOwnerBullet *p_owner, bool p_permanentlyFrom
 }
 
 bool ShapeBullet::is_owner(ShapeOwnerBullet *p_owner) const {
-
 	return owners.has(p_owner);
 }
 
@@ -138,7 +171,7 @@ btScaledBvhTriangleMeshShape *ShapeBullet::create_shape_concave(btBvhTriangleMes
 	if (p_mesh_shape) {
 		return bulletnew(btScaledBvhTriangleMeshShape(p_mesh_shape, p_local_scaling));
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -150,9 +183,10 @@ btHeightfieldTerrainShape *ShapeBullet::create_shape_height_field(Vector<real_t>
 
 	btHeightfieldTerrainShape *heightfield = bulletnew(btHeightfieldTerrainShape(p_width, p_depth, heightsPtr, ignoredHeightScale, p_min_height, p_max_height, YAxis, PHY_FLOAT, flipQuadEdges));
 
-	// The shape can be created without params when you do PhysicsServer.shape_create(PhysicsServer.SHAPE_HEIGHTMAP)
-	if (heightsPtr)
+	// The shape can be created without params when you do PhysicsServer3D.shape_create(PhysicsServer3D.SHAPE_HEIGHTMAP)
+	if (heightsPtr) {
 		heightfield->buildAccelerator(16);
+	}
 
 	return heightfield;
 }
@@ -176,8 +210,8 @@ Variant PlaneShapeBullet::get_data() const {
 	return plane;
 }
 
-PhysicsServer::ShapeType PlaneShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_PLANE;
+PhysicsServer3D::ShapeType PlaneShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_PLANE;
 }
 
 void PlaneShapeBullet::setup(const Plane &p_plane) {
@@ -185,7 +219,7 @@ void PlaneShapeBullet::setup(const Plane &p_plane) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *PlaneShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *PlaneShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	btVector3 btPlaneNormal;
 	G_TO_B(plane.normal, btPlaneNormal);
 	return prepare(PlaneShapeBullet::create_shape_plane(btPlaneNormal, plane.d));
@@ -204,8 +238,8 @@ Variant SphereShapeBullet::get_data() const {
 	return radius;
 }
 
-PhysicsServer::ShapeType SphereShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_SPHERE;
+PhysicsServer3D::ShapeType SphereShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_SPHERE;
 }
 
 void SphereShapeBullet::setup(real_t p_radius) {
@@ -213,7 +247,7 @@ void SphereShapeBullet::setup(real_t p_radius) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *SphereShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *SphereShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	return prepare(ShapeBullet::create_shape_sphere(radius * p_implicit_scale[0] + p_extra_edge));
 }
 
@@ -231,8 +265,8 @@ Variant BoxShapeBullet::get_data() const {
 	return g_half_extents;
 }
 
-PhysicsServer::ShapeType BoxShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_BOX;
+PhysicsServer3D::ShapeType BoxShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_BOX;
 }
 
 void BoxShapeBullet::setup(const Vector3 &p_half_extents) {
@@ -240,7 +274,7 @@ void BoxShapeBullet::setup(const Vector3 &p_half_extents) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *BoxShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *BoxShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	return prepare(ShapeBullet::create_shape_box((half_extents * p_implicit_scale) + btVector3(p_extra_edge, p_extra_edge, p_extra_edge)));
 }
 
@@ -263,8 +297,8 @@ Variant CapsuleShapeBullet::get_data() const {
 	return d;
 }
 
-PhysicsServer::ShapeType CapsuleShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_CAPSULE;
+PhysicsServer3D::ShapeType CapsuleShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_CAPSULE;
 }
 
 void CapsuleShapeBullet::setup(real_t p_height, real_t p_radius) {
@@ -273,7 +307,7 @@ void CapsuleShapeBullet::setup(real_t p_height, real_t p_radius) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *CapsuleShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *CapsuleShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	return prepare(ShapeBullet::create_shape_capsule(radius * p_implicit_scale[0] + p_extra_edge, height * p_implicit_scale[1] + p_extra_edge));
 }
 
@@ -296,8 +330,8 @@ Variant CylinderShapeBullet::get_data() const {
 	return d;
 }
 
-PhysicsServer::ShapeType CylinderShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_CYLINDER;
+PhysicsServer3D::ShapeType CylinderShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_CYLINDER;
 }
 
 void CylinderShapeBullet::setup(real_t p_height, real_t p_radius) {
@@ -306,7 +340,7 @@ void CylinderShapeBullet::setup(real_t p_height, real_t p_radius) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *CylinderShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_margin) {
+btCollisionShape *CylinderShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_margin) {
 	return prepare(ShapeBullet::create_shape_cylinder(radius * p_implicit_scale[0] + p_margin, height * p_implicit_scale[1] + p_margin));
 }
 
@@ -334,8 +368,8 @@ Variant ConvexPolygonShapeBullet::get_data() const {
 	return out_vertices;
 }
 
-PhysicsServer::ShapeType ConvexPolygonShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_CONVEX_POLYGON;
+PhysicsServer3D::ShapeType ConvexPolygonShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_CONVEX_POLYGON;
 }
 
 void ConvexPolygonShapeBullet::setup(const Vector<Vector3> &p_vertices) {
@@ -348,10 +382,11 @@ void ConvexPolygonShapeBullet::setup(const Vector<Vector3> &p_vertices) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *ConvexPolygonShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
-	if (!vertices.size())
+btCollisionShape *ConvexPolygonShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+	if (!vertices.size()) {
 		// This is necessary since 0 vertices
 		return prepare(ShapeBullet::create_shape_empty());
+	}
 	btCollisionShape *cs(ShapeBullet::create_shape_convex(vertices));
 	cs->setLocalScaling(p_implicit_scale);
 	prepare(cs);
@@ -361,8 +396,7 @@ btCollisionShape *ConvexPolygonShapeBullet::create_bt_shape(const btVector3 &p_i
 /* Concave polygon */
 
 ConcavePolygonShapeBullet::ConcavePolygonShapeBullet() :
-		ShapeBullet(),
-		meshShape(NULL) {}
+		ShapeBullet() {}
 
 ConcavePolygonShapeBullet::~ConcavePolygonShapeBullet() {
 	if (meshShape) {
@@ -381,8 +415,8 @@ Variant ConcavePolygonShapeBullet::get_data() const {
 	return faces;
 }
 
-PhysicsServer::ShapeType ConcavePolygonShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_CONCAVE_POLYGON;
+PhysicsServer3D::ShapeType ConcavePolygonShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_CONCAVE_POLYGON;
 }
 
 void ConcavePolygonShapeBullet::setup(Vector<Vector3> p_faces) {
@@ -395,7 +429,6 @@ void ConcavePolygonShapeBullet::setup(Vector<Vector3> p_faces) {
 	}
 	int src_face_count = faces.size();
 	if (0 < src_face_count) {
-
 		// It counts the faces and assert the array contains the correct number of vertices.
 		ERR_FAIL_COND(src_face_count % 3);
 
@@ -425,17 +458,18 @@ void ConcavePolygonShapeBullet::setup(Vector<Vector3> p_faces) {
 			btGenerateInternalEdgeInfo(meshShape, triangleInfoMap);
 		}
 	} else {
-		meshShape = NULL;
+		meshShape = nullptr;
 		ERR_PRINT("The faces count are 0, the mesh shape cannot be created");
 	}
 	notifyShapeChanged();
 }
 
-btCollisionShape *ConcavePolygonShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *ConcavePolygonShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	btCollisionShape *cs = ShapeBullet::create_shape_concave(meshShape);
-	if (!cs)
-		// This is necessary since if 0 faces the creation of concave return NULL
+	if (!cs) {
+		// This is necessary since if 0 faces the creation of concave return null
 		cs = ShapeBullet::create_shape_empty();
+	}
 	cs->setLocalScaling(p_implicit_scale);
 	prepare(cs);
 	cs->setMargin(0);
@@ -458,15 +492,20 @@ void HeightMapShapeBullet::set_data(const Variant &p_data) {
 	real_t l_max_height = 0.0;
 
 	// If specified, min and max height will be used as precomputed values
-	if (d.has("min_height"))
+	if (d.has("min_height")) {
 		l_min_height = d["min_height"];
-	if (d.has("max_height"))
+	}
+	if (d.has("max_height")) {
 		l_max_height = d["max_height"];
+	}
 
 	ERR_FAIL_COND(l_min_height > l_max_height);
 
 	int l_width = d["width"];
 	int l_depth = d["depth"];
+
+	ERR_FAIL_COND_MSG(l_width < 2, "Map width must be at least 2.");
+	ERR_FAIL_COND_MSG(l_depth < 2, "Map depth must be at least 2.");
 
 	// TODO This code will need adjustments if real_t is set to `double`,
 	// because that precision is unnecessary for a heightmap and Bullet doesn't support it...
@@ -514,7 +553,6 @@ void HeightMapShapeBullet::set_data(const Variant &p_data) {
 
 	// Compute min and max heights if not specified.
 	if (!d.has("min_height") && !d.has("max_height")) {
-
 		const real_t *r = l_heights.ptr();
 		int heights_size = l_heights.size();
 
@@ -536,8 +574,8 @@ Variant HeightMapShapeBullet::get_data() const {
 	ERR_FAIL_V(Variant());
 }
 
-PhysicsServer::ShapeType HeightMapShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_HEIGHTMAP;
+PhysicsServer3D::ShapeType HeightMapShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_HEIGHTMAP;
 }
 
 void HeightMapShapeBullet::setup(Vector<real_t> &p_heights, int p_width, int p_depth, real_t p_min_height, real_t p_max_height) {
@@ -553,7 +591,7 @@ void HeightMapShapeBullet::setup(Vector<real_t> &p_heights, int p_width, int p_d
 	notifyShapeChanged();
 }
 
-btCollisionShape *HeightMapShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *HeightMapShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	btCollisionShape *cs(ShapeBullet::create_shape_height_field(heights, width, depth, min_height, max_height));
 	cs->setLocalScaling(p_implicit_scale);
 	prepare(cs);
@@ -562,26 +600,22 @@ btCollisionShape *HeightMapShapeBullet::create_bt_shape(const btVector3 &p_impli
 
 /* Ray shape */
 RayShapeBullet::RayShapeBullet() :
-		ShapeBullet(),
-		length(1),
-		slips_on_slope(false) {}
+		ShapeBullet() {}
 
 void RayShapeBullet::set_data(const Variant &p_data) {
-
 	Dictionary d = p_data;
 	setup(d["length"], d["slips_on_slope"]);
 }
 
 Variant RayShapeBullet::get_data() const {
-
 	Dictionary d;
 	d["length"] = length;
 	d["slips_on_slope"] = slips_on_slope;
 	return d;
 }
 
-PhysicsServer::ShapeType RayShapeBullet::get_type() const {
-	return PhysicsServer::SHAPE_RAY;
+PhysicsServer3D::ShapeType RayShapeBullet::get_type() const {
+	return PhysicsServer3D::SHAPE_RAY;
 }
 
 void RayShapeBullet::setup(real_t p_length, bool p_slips_on_slope) {
@@ -590,6 +624,6 @@ void RayShapeBullet::setup(real_t p_length, bool p_slips_on_slope) {
 	notifyShapeChanged();
 }
 
-btCollisionShape *RayShapeBullet::create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
+btCollisionShape *RayShapeBullet::internal_create_bt_shape(const btVector3 &p_implicit_scale, real_t p_extra_edge) {
 	return prepare(ShapeBullet::create_shape_ray(length * p_implicit_scale[1] + p_extra_edge, slips_on_slope));
 }

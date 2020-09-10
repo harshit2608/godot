@@ -40,7 +40,6 @@
 #include "scene/gui/option_button.h"
 #include "scene/gui/progress_bar.h"
 #include "scene/gui/split_container.h"
-#include "scene/gui/tool_button.h"
 #include "scene/gui/tree.h"
 #include "scene/main/timer.h"
 
@@ -148,11 +147,9 @@ private:
 	class FileOrFolder {
 	public:
 		String path;
-		bool is_file;
+		bool is_file = false;
 
-		FileOrFolder() :
-				path(""),
-				is_file(false) {}
+		FileOrFolder() {}
 		FileOrFolder(const String &p_path, bool p_is_file) :
 				path(p_path),
 				is_file(p_is_file) {}
@@ -198,6 +195,7 @@ private:
 	void _file_multi_selected(int p_index, bool p_selected);
 	void _tree_multi_selected(Object *p_item, int p_column, bool p_selected);
 
+	void _get_imported_files(const String &p_path, Vector<String> &files) const;
 	void _update_import_dock();
 
 	void _get_all_items_in_dir(EditorFileSystemDirectory *efsd, Vector<String> &files, Vector<String> &folders) const;
@@ -210,8 +208,8 @@ private:
 	void _update_favorites_list_after_move(const Map<String, String> &p_files_renames, const Map<String, String> &p_folders_renames) const;
 	void _update_project_settings_after_move(const Map<String, String> &p_renames) const;
 
-	void _file_deleted(String p_file);
-	void _folder_deleted(String p_folder);
+	void _file_removed(String p_file);
+	void _folder_removed(String p_folder);
 	void _files_moved(String p_old_file, String p_new_file);
 	void _folder_moved(String p_old_folder, String p_new_folder);
 
@@ -222,7 +220,7 @@ private:
 	void _duplicate_operation_confirm();
 	void _move_with_overwrite();
 	bool _check_existing();
-	void _move_operation_confirm(const String &p_to_path, bool overwrite = false);
+	void _move_operation_confirm(const String &p_to_path, bool p_overwrite = false);
 
 	void _tree_rmb_option(int p_option);
 	void _file_list_rmb_option(int p_option);

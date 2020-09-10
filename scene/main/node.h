@@ -37,12 +37,12 @@
 #include "core/object.h"
 #include "core/project_settings.h"
 #include "core/script_language.h"
+#include "core/typed_array.h"
 #include "scene/main/scene_tree.h"
 
 class Viewport;
 class SceneState;
 class Node : public Object {
-
 	GDCLASS(Node, Object);
 	OBJ_CATEGORY("Nodes");
 
@@ -66,12 +66,10 @@ public:
 	};
 
 	struct Comparator {
-
 		bool operator()(const Node *p_a, const Node *p_b) const { return p_b->is_greater_than(p_a); }
 	};
 
 	struct ComparatorWithPriority {
-
 		bool operator()(const Node *p_a, const Node *p_b) const { return p_b->data.process_priority == p_a->data.process_priority ? p_b->is_greater_than(p_a) : p_b->data.process_priority > p_a->data.process_priority; }
 	};
 
@@ -79,7 +77,6 @@ public:
 
 private:
 	struct GroupData {
-
 		bool persistent;
 		SceneTree::Group *group;
 		GroupData() { persistent = false; }
@@ -91,7 +88,6 @@ private:
 	};
 
 	struct Data {
-
 		String filename;
 		Ref<SceneState> instance_state;
 		Ref<SceneState> inherited_state;
@@ -180,9 +176,9 @@ private:
 
 	void _duplicate_signals(const Node *p_original, Node *p_copy) const;
 	void _duplicate_and_reown(Node *p_new_parent, const Map<Node *, Node *> &p_reown_map) const;
-	Node *_duplicate(int p_flags, Map<const Node *, Node *> *r_duplimap = NULL) const;
+	Node *_duplicate(int p_flags, Map<const Node *, Node *> *r_duplimap = nullptr) const;
 
-	Array _get_children() const;
+	TypedArray<Node> _get_children() const;
 	Array _get_groups() const;
 
 	Variant _rpc_bind(const Variant **p_args, int p_argcount, Callable::CallError &r_error);
@@ -244,20 +240,25 @@ public:
 		NOTIFICATION_INTERNAL_PHYSICS_PROCESS = 26,
 		NOTIFICATION_POST_ENTER_TREE = 27,
 		//keep these linked to node
-		NOTIFICATION_WM_MOUSE_ENTER = MainLoop::NOTIFICATION_WM_MOUSE_ENTER,
-		NOTIFICATION_WM_MOUSE_EXIT = MainLoop::NOTIFICATION_WM_MOUSE_EXIT,
-		NOTIFICATION_WM_FOCUS_IN = MainLoop::NOTIFICATION_WM_FOCUS_IN,
-		NOTIFICATION_WM_FOCUS_OUT = MainLoop::NOTIFICATION_WM_FOCUS_OUT,
-		NOTIFICATION_WM_QUIT_REQUEST = MainLoop::NOTIFICATION_WM_QUIT_REQUEST,
-		NOTIFICATION_WM_GO_BACK_REQUEST = MainLoop::NOTIFICATION_WM_GO_BACK_REQUEST,
-		NOTIFICATION_WM_UNFOCUS_REQUEST = MainLoop::NOTIFICATION_WM_UNFOCUS_REQUEST,
+
+		NOTIFICATION_WM_MOUSE_ENTER = 1002,
+		NOTIFICATION_WM_MOUSE_EXIT = 1003,
+		NOTIFICATION_WM_WINDOW_FOCUS_IN = 1004,
+		NOTIFICATION_WM_WINDOW_FOCUS_OUT = 1005,
+		NOTIFICATION_WM_CLOSE_REQUEST = 1006,
+		NOTIFICATION_WM_GO_BACK_REQUEST = 1007,
+		NOTIFICATION_WM_SIZE_CHANGED = 1008,
+		NOTIFICATION_WM_DPI_CHANGE = 1009,
+
 		NOTIFICATION_OS_MEMORY_WARNING = MainLoop::NOTIFICATION_OS_MEMORY_WARNING,
 		NOTIFICATION_TRANSLATION_CHANGED = MainLoop::NOTIFICATION_TRANSLATION_CHANGED,
 		NOTIFICATION_WM_ABOUT = MainLoop::NOTIFICATION_WM_ABOUT,
 		NOTIFICATION_CRASH = MainLoop::NOTIFICATION_CRASH,
 		NOTIFICATION_OS_IME_UPDATE = MainLoop::NOTIFICATION_OS_IME_UPDATE,
-		NOTIFICATION_APP_RESUMED = MainLoop::NOTIFICATION_APP_RESUMED,
-		NOTIFICATION_APP_PAUSED = MainLoop::NOTIFICATION_APP_PAUSED
+		NOTIFICATION_APPLICATION_RESUMED = MainLoop::NOTIFICATION_APPLICATION_RESUMED,
+		NOTIFICATION_APPLICATION_PAUSED = MainLoop::NOTIFICATION_APPLICATION_PAUSED,
+		NOTIFICATION_APPLICATION_FOCUS_IN = MainLoop::NOTIFICATION_APPLICATION_FOCUS_IN,
+		NOTIFICATION_APPLICATION_FOCUS_OUT = MainLoop::NOTIFICATION_APPLICATION_FOCUS_OUT
 
 	};
 
@@ -267,7 +268,7 @@ public:
 	void set_name(const String &p_name);
 
 	void add_child(Node *p_child, bool p_legible_unique_name = false);
-	void add_child_below_node(Node *p_node, Node *p_child, bool p_legible_unique_name = false);
+	void add_sibling(Node *p_sibling, bool p_legible_unique_name = false);
 	void remove_child(Node *p_child);
 
 	int get_child_count() const;
@@ -283,7 +284,7 @@ public:
 	Node *find_parent(const String &p_mask) const;
 
 	_FORCE_INLINE_ SceneTree *get_tree() const {
-		ERR_FAIL_COND_V(!data.tree, NULL);
+		ERR_FAIL_COND_V(!data.tree, nullptr);
 		return data.tree;
 	}
 
@@ -301,7 +302,6 @@ public:
 	bool is_in_group(const StringName &p_identifier) const;
 
 	struct GroupInfo {
-
 		StringName name;
 		bool persistent;
 	};
@@ -366,8 +366,6 @@ public:
 	void set_process_unhandled_key_input(bool p_enable);
 	bool is_processing_unhandled_key_input() const;
 
-	int get_position_in_parent() const;
-
 	Node *duplicate(int p_flags = DUPLICATE_GROUPS | DUPLICATE_SIGNALS | DUPLICATE_SCRIPTS) const;
 	Node *duplicate_and_reown(const Map<Node *, Node *> &p_reown_map) const;
 #ifdef TOOLS_ENABLED
@@ -414,7 +412,7 @@ public:
 
 	bool is_owned_by_parent() const;
 
-	void get_argument_options(const StringName &p_function, int p_idx, List<String> *r_options) const;
+	void get_argument_options(const StringName &p_function, int p_idx, List<String> *r_options) const override;
 
 	void clear_internal_tree_resource_paths();
 

@@ -42,12 +42,10 @@
 #include "scene/gui/control.h"
 #include "scene/gui/label.h"
 #include "scene/gui/popup_menu.h"
-#include "scene/gui/tool_button.h"
 
 class EditorNode;
 
 class InspectorDock : public VBoxContainer {
-
 	GDCLASS(InspectorDock, VBoxContainer);
 
 	enum MenuOptions {
@@ -75,13 +73,13 @@ class InspectorDock : public VBoxContainer {
 
 	Object *current;
 
-	ToolButton *backward_button;
-	ToolButton *forward_button;
+	Button *backward_button;
+	Button *forward_button;
 
 	EditorFileDialog *load_resource_dialog;
 	CreateDialog *new_resource_dialog;
-	ToolButton *resource_new_button;
-	ToolButton *resource_load_button;
+	Button *resource_new_button;
+	Button *resource_load_button;
 	MenuButton *resource_save_button;
 	MenuButton *history_menu;
 	LineEdit *search;
@@ -105,7 +103,7 @@ class InspectorDock : public VBoxContainer {
 
 	void _warning_pressed();
 	void _resource_created();
-	void _resource_selected(const RES &p_res, const String &p_property = "");
+	void _resource_selected(const RES &p_res, const String &p_property);
 	void _edit_forward();
 	void _edit_back();
 	void _menu_collapseall();

@@ -35,11 +35,10 @@
 #include "core/self_list.h"
 #include "scene/resources/shader.h"
 #include "scene/resources/texture.h"
-#include "servers/visual/shader_language.h"
-#include "servers/visual_server.h"
+#include "servers/rendering/shader_language.h"
+#include "servers/rendering_server.h"
 
 class Material : public Resource {
-
 	GDCLASS(Material, Resource);
 	RES_BASE_EXTENSION("material")
 	OBJ_SAVE_TYPE(Material);
@@ -53,12 +52,12 @@ protected:
 	static void _bind_methods();
 	virtual bool _can_do_next_pass() const { return false; }
 
-	void _validate_property(PropertyInfo &property) const;
+	void _validate_property(PropertyInfo &property) const override;
 
 public:
 	enum {
-		RENDER_PRIORITY_MAX = VS::MATERIAL_RENDER_PRIORITY_MAX,
-		RENDER_PRIORITY_MIN = VS::MATERIAL_RENDER_PRIORITY_MIN,
+		RENDER_PRIORITY_MAX = RS::MATERIAL_RENDER_PRIORITY_MAX,
+		RENDER_PRIORITY_MIN = RS::MATERIAL_RENDER_PRIORITY_MIN,
 	};
 	void set_next_pass(const Ref<Material> &p_pass);
 	Ref<Material> get_next_pass() const;
@@ -66,7 +65,7 @@ public:
 	void set_render_priority(int p_priority);
 	int get_render_priority() const;
 
-	virtual RID get_rid() const;
+	virtual RID get_rid() const override;
 
 	virtual Shader::Mode get_shader_mode() const = 0;
 	Material();
@@ -74,7 +73,6 @@ public:
 };
 
 class ShaderMaterial : public Material {
-
 	GDCLASS(ShaderMaterial, Material);
 	Ref<Shader> shader;
 
@@ -87,9 +85,9 @@ protected:
 
 	static void _bind_methods();
 
-	void get_argument_options(const StringName &p_function, int p_idx, List<String> *r_options) const;
+	void get_argument_options(const StringName &p_function, int p_idx, List<String> *r_options) const override;
 
-	virtual bool _can_do_next_pass() const;
+	virtual bool _can_do_next_pass() const override;
 
 	void _shader_changed();
 
@@ -100,7 +98,7 @@ public:
 	void set_shader_param(const StringName &p_param, const Variant &p_value);
 	Variant get_shader_param(const StringName &p_param) const;
 
-	virtual Shader::Mode get_shader_mode() const;
+	virtual Shader::Mode get_shader_mode() const override;
 
 	ShaderMaterial();
 	~ShaderMaterial();
@@ -109,7 +107,6 @@ public:
 class StandardMaterial3D;
 
 class BaseMaterial3D : public Material {
-
 	GDCLASS(BaseMaterial3D, Material);
 
 public:
@@ -125,7 +122,8 @@ public:
 		TEXTURE_AMBIENT_OCCLUSION,
 		TEXTURE_HEIGHTMAP,
 		TEXTURE_SUBSURFACE_SCATTERING,
-		TEXTURE_TRANSMISSION,
+		TEXTURE_SUBSURFACE_TRANSMITTANCE,
+		TEXTURE_BACKLIGHT,
 		TEXTURE_REFRACTION,
 		TEXTURE_DETAIL_MASK,
 		TEXTURE_DETAIL_ALBEDO,
@@ -173,8 +171,9 @@ public:
 		FEATURE_ANISOTROPY,
 		FEATURE_AMBIENT_OCCLUSION,
 		FEATURE_HEIGHT_MAPPING,
-		FEATURE_SUBSURACE_SCATTERING,
-		FEATURE_TRANSMISSION,
+		FEATURE_SUBSURFACE_SCATTERING,
+		FEATURE_SUBSURFACE_TRANSMITTANCE,
+		FEATURE_BACKLIGHT,
 		FEATURE_REFRACTION,
 		FEATURE_DETAIL,
 		FEATURE_MAX
@@ -218,6 +217,7 @@ public:
 		FLAG_USE_SHADOW_TO_OPACITY,
 		FLAG_USE_TEXTURE_REPEAT,
 		FLAG_INVERT_HEIGHTMAP,
+		FLAG_SUBSURFACE_MODE_SKIN,
 		FLAG_MAX
 	};
 
@@ -266,7 +266,6 @@ public:
 
 private:
 	union MaterialKey {
-
 		struct {
 			uint64_t feature_mask : FEATURE_MAX;
 			uint64_t detail_uv : 1;
@@ -290,10 +289,16 @@ private:
 			uint64_t roughness_channel : 3;
 		};
 
-		uint64_t key;
+		struct {
+			uint64_t key0;
+			uint64_t key1;
+		};
 
+		bool operator==(const MaterialKey &p_key) const {
+			return (key0 == p_key.key0) && (key1 == p_key.key1);
+		}
 		bool operator<(const MaterialKey &p_key) const {
-			return key < p_key.key;
+			return (key0 == p_key.key0) ? (key1 < p_key.key1) : (key0 < p_key.key0);
 		}
 	};
 
@@ -307,9 +312,9 @@ private:
 	MaterialKey current_key;
 
 	_FORCE_INLINE_ MaterialKey _compute_key() const {
-
 		MaterialKey mk;
-		mk.key = 0;
+		mk.key0 = 0;
+		mk.key1 = 0;
 		for (int i = 0; i < FEATURE_MAX; i++) {
 			if (features[i]) {
 				mk.feature_mask |= ((uint64_t)1 << i);
@@ -356,7 +361,11 @@ private:
 		StringName anisotropy;
 		StringName heightmap_scale;
 		StringName subsurface_scattering_strength;
-		StringName transmission;
+		StringName transmittance_color;
+		StringName transmittance_curve;
+		StringName transmittance_depth;
+		StringName transmittance_boost;
+		StringName backlight;
 		StringName refraction;
 		StringName point_size;
 		StringName uv1_scale;
@@ -414,7 +423,13 @@ private:
 	float anisotropy;
 	float heightmap_scale;
 	float subsurface_scattering_strength;
-	Color transmission;
+	float transmittance_amount;
+	Color transmittance_color;
+	float transmittance_depth;
+	float transmittance_curve;
+	float transmittance_boost;
+
+	Color backlight;
 	float refraction;
 	float point_size;
 	float alpha_scissor_threshold;
@@ -481,8 +496,8 @@ private:
 
 protected:
 	static void _bind_methods();
-	void _validate_property(PropertyInfo &property) const;
-	virtual bool _can_do_next_pass() const { return true; }
+	void _validate_property(PropertyInfo &property) const override;
+	virtual bool _can_do_next_pass() const override { return true; }
 
 public:
 	void set_albedo(const Color &p_albedo);
@@ -545,8 +560,20 @@ public:
 	void set_subsurface_scattering_strength(float p_subsurface_scattering_strength);
 	float get_subsurface_scattering_strength() const;
 
-	void set_transmission(const Color &p_transmission);
-	Color get_transmission() const;
+	void set_transmittance_color(const Color &p_color);
+	Color get_transmittance_color() const;
+
+	void set_transmittance_depth(float p_depth);
+	float get_transmittance_depth() const;
+
+	void set_transmittance_curve(float p_curve);
+	float get_transmittance_curve() const;
+
+	void set_transmittance_boost(float p_boost);
+	float get_transmittance_boost() const;
+
+	void set_backlight(const Color &p_backlight);
+	Color get_backlight() const;
 
 	void set_refraction(float p_refraction);
 	float get_refraction() const;
@@ -670,7 +697,7 @@ public:
 
 	RID get_shader_rid() const;
 
-	virtual Shader::Mode get_shader_mode() const;
+	virtual Shader::Mode get_shader_mode() const override;
 
 	BaseMaterial3D(bool p_orm);
 	virtual ~BaseMaterial3D();

@@ -744,6 +744,10 @@ msgid "Method in target node must be specified."
 msgstr ""
 
 #: editor/connections_dialog.cpp
+msgid "Method name must be a valid identifier."
+msgstr ""
+
+#: editor/connections_dialog.cpp
 msgid ""
 "Target method not found. Specify a valid method or attach a script to the "
 "target node."
@@ -829,7 +833,6 @@ msgstr "Lidh Sinjalin: "
 #: editor/export_template_manager.cpp editor/groups_editor.cpp
 #: editor/plugins/animation_player_editor_plugin.cpp
 #: editor/plugins/asset_library_editor_plugin.cpp
-#: editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/resource_preloader_editor_plugin.cpp
 #: editor/plugins/script_editor_plugin.cpp
 #: editor/plugins/sprite_frames_editor_plugin.cpp
@@ -1111,6 +1114,9 @@ msgstr "Themeluesit e Projektit"
 msgid "Lead Developer"
 msgstr "Krye Zhvilluesi"
 
+#. TRANSLATORS: This refers to a job title.
+#. The trailing space is used to distinguish with the project list application,
+#. you do not have to keep it in your translation.
 #: editor/editor_about.cpp
 msgid "Project Manager "
 msgstr "Menaxheri Projektit "
@@ -1130,6 +1136,16 @@ msgstr "Sponsorat Platinium"
 #: editor/editor_about.cpp
 msgid "Gold Sponsors"
 msgstr "Sponsorat Flori"
+
+#: editor/editor_about.cpp
+#, fuzzy
+msgid "Silver Sponsors"
+msgstr "Dhuruesit Argjend"
+
+#: editor/editor_about.cpp
+#, fuzzy
+msgid "Bronze Sponsors"
+msgstr "Dhuruesit Bronz"
 
 #: editor/editor_about.cpp
 msgid "Mini Sponsors"
@@ -1452,7 +1468,7 @@ msgstr "Lëviz Autoload-in"
 msgid "Remove Autoload"
 msgstr "Hiq Autoload-in"
 
-#: editor/editor_autoload_settings.cpp
+#: editor/editor_autoload_settings.cpp editor/editor_plugin_settings.cpp
 msgid "Enable"
 msgstr "Lejo"
 
@@ -1460,18 +1476,9 @@ msgstr "Lejo"
 msgid "Rearrange Autoloads"
 msgstr "Riorganizo Autoload-et"
 
-#: editor/editor_autoload_settings.cpp editor/script_create_dialog.cpp
-#, fuzzy
-msgid "Invalid path."
-msgstr "Rruga e pasaktë."
-
-#: editor/editor_autoload_settings.cpp editor/script_create_dialog.cpp
-msgid "File does not exist."
-msgstr "Skedari nuk egziston."
-
 #: editor/editor_autoload_settings.cpp
-msgid "Not in resource path."
-msgstr "Jo në rrugën e resurseve."
+msgid "Can't add autoload:"
+msgstr ""
 
 #: editor/editor_autoload_settings.cpp
 msgid "Add AutoLoad"
@@ -1497,6 +1504,10 @@ msgstr "Emri"
 #: editor/editor_autoload_settings.cpp
 msgid "Singleton"
 msgstr "Vetmitar"
+
+#: editor/editor_data.cpp editor/inspector_dock.cpp
+msgid "Paste Params"
+msgstr "Ngjit Parametrat"
 
 #: editor/editor_data.cpp
 msgid "Updating Scene"
@@ -1805,7 +1816,7 @@ msgstr "Shfaq në Menaxherin e Skedarëve"
 msgid "New Folder..."
 msgstr "Folder i Ri..."
 
-#: editor/editor_file_dialog.cpp
+#: editor/editor_file_dialog.cpp editor/find_in_files.cpp
 #: editor/plugins/version_control_editor_plugin.cpp
 msgid "Refresh"
 msgstr "Rifresko"
@@ -2374,11 +2385,6 @@ msgid "There is no defined scene to run."
 msgstr "Nuk ka një skenë të përcaktuar për të filluar."
 
 #: editor/editor_node.cpp
-msgid "Current scene was never saved, please save it prior to running."
-msgstr ""
-"Skena aktuale nuk është ruajtur më parë, ju lutem ruajeni para se të filloni."
-
-#: editor/editor_node.cpp
 msgid "Could not start subprocess!"
 msgstr "Nuk mund të fillojë subprocess-in!"
 
@@ -2464,12 +2470,15 @@ msgid "Can't reload a scene that was never saved."
 msgstr "Nuk mund të ringarkojë një skenë që nuk është ruajtur më parë."
 
 #: editor/editor_node.cpp
-msgid "Revert"
-msgstr "Rikthe"
+#, fuzzy
+msgid "Reload Saved Scene"
+msgstr "Ruaj Skenën"
 
 #: editor/editor_node.cpp
-msgid "This action cannot be undone. Revert anyway?"
-msgstr "Ky veprim nuk mund të çbëhet. Rikthe gjithsesi?"
+msgid ""
+"The current scene has unsaved changes.\n"
+"Reload the saved scene anyway? This action cannot be undone."
+msgstr ""
 
 #: editor/editor_node.cpp
 msgid "Quick Run Scene..."
@@ -2764,10 +2773,6 @@ msgid "Redo"
 msgstr "Ribëj"
 
 #: editor/editor_node.cpp
-msgid "Revert Scene"
-msgstr "Rikthe Skenën"
-
-#: editor/editor_node.cpp
 msgid "Miscellaneous project or scene-wide tools."
 msgstr "Vegla të ndryshme për projektin ose skenën."
 
@@ -2987,8 +2992,13 @@ msgid "Q&A"
 msgstr "Pyetje&Përgjigje"
 
 #: editor/editor_node.cpp
-msgid "Issue Tracker"
-msgstr "Gjurmuesi i Problemeve"
+#, fuzzy
+msgid "Report a Bug"
+msgstr "Ri-importo"
+
+#: editor/editor_node.cpp
+msgid "Send Docs Feedback"
+msgstr ""
 
 #: editor/editor_node.cpp editor/plugins/asset_library_editor_plugin.cpp
 msgid "Community"
@@ -3414,6 +3424,10 @@ msgstr "Nuk mund të ekzekutonte shkrimin:"
 #: editor/editor_run_script.cpp
 msgid "Did you forget the '_run' method?"
 msgstr "A mos harrove metodën '_run'?"
+
+#: editor/editor_spin_slider.cpp
+msgid "Hold Ctrl to round to integers. Hold Shift for more precise changes."
+msgstr ""
 
 #: editor/editor_sub_scene.cpp
 msgid "Select Node(s) to Import"
@@ -4032,6 +4046,10 @@ msgid "Error running post-import script:"
 msgstr ""
 
 #: editor/import/resource_importer_scene.cpp
+msgid "Did you return a Node-derived object in the `post_import()` method?"
+msgstr ""
+
+#: editor/import/resource_importer_scene.cpp
 msgid "Saving..."
 msgstr "Duke Ruajtur..."
 
@@ -4062,7 +4080,8 @@ msgid "Reimport"
 msgstr "Ri-importo"
 
 #: editor/import_dock.cpp
-msgid "Save scenes, re-import and restart"
+#, fuzzy
+msgid "Save Scenes, Re-Import, and Restart"
 msgstr "Ruaj skenat, ri-importo dhe rifillo"
 
 #: editor/import_dock.cpp
@@ -4098,10 +4117,6 @@ msgstr "Ruaje Si…"
 #: editor/inspector_dock.cpp
 msgid "Copy Params"
 msgstr "Kopjo Parametrat"
-
-#: editor/inspector_dock.cpp
-msgid "Paste Params"
-msgstr "Ngjit Parametrat"
 
 #: editor/inspector_dock.cpp
 msgid "Edit Resource Clipboard"
@@ -6021,7 +6036,7 @@ msgstr ""
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 #, fuzzy
-msgid "Create Single Convex Collision Siblings"
+msgid "Create Single Convex Collision Sibling"
 msgstr "Krijo një Poligon"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
@@ -6897,14 +6912,6 @@ msgid "Open Godot online documentation."
 msgstr ""
 
 #: editor/plugins/script_editor_plugin.cpp
-msgid "Request Docs"
-msgstr ""
-
-#: editor/plugins/script_editor_plugin.cpp
-msgid "Help improve the Godot documentation by giving feedback."
-msgstr ""
-
-#: editor/plugins/script_editor_plugin.cpp
 msgid "Search the reference documentation."
 msgstr ""
 
@@ -6969,11 +6976,11 @@ msgid ""
 msgstr ""
 
 #: editor/plugins/script_text_editor.cpp
-msgid "Line"
+msgid "[Ignore]"
 msgstr ""
 
 #: editor/plugins/script_text_editor.cpp
-msgid "(ignore)"
+msgid "Line"
 msgstr ""
 
 #: editor/plugins/script_text_editor.cpp
@@ -7343,6 +7350,10 @@ msgid "This operation requires a single selected node."
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
+msgid "Auto Orthogonal Enabled"
+msgstr ""
+
+#: editor/plugins/spatial_editor_plugin.cpp
 msgid "Lock View Rotation"
 msgstr ""
 
@@ -7432,17 +7443,26 @@ msgid "Freelook Slow Modifier"
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
+msgid "View Rotation Locked"
+msgstr ""
+
+#: editor/plugins/spatial_editor_plugin.cpp
 msgid ""
 "Note: The FPS value displayed is the editor's framerate.\n"
 "It cannot be used as a reliable indication of in-game performance."
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
-msgid "View Rotation Locked"
+msgid "XForm Dialog"
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
-msgid "XForm Dialog"
+msgid ""
+"Click to toggle between visibility states.\n"
+"\n"
+"Open eye: Gizmo is visible.\n"
+"Closed eye: Gizmo is hidden.\n"
+"Half-open eye: Gizmo is also visible through opaque surfaces (\"x-ray\")."
 msgstr ""
 
 #: editor/plugins/spatial_editor_plugin.cpp
@@ -9810,6 +9830,7 @@ msgid ""
 "This could take a while."
 msgstr ""
 
+#. TRANSLATORS: This refers to the application where users manage their Godot projects.
 #: editor/project_manager.cpp
 msgid "Project Manager"
 msgstr ""
@@ -9856,6 +9877,13 @@ msgstr ""
 msgid ""
 "You currently don't have any projects.\n"
 "Would you like to explore official example projects in the Asset Library?"
+msgstr ""
+
+#: editor/project_manager.cpp
+msgid ""
+"The search box filters projects by name and last path component.\n"
+"To filter projects by name and full path, the query must contain at least "
+"one `/` character."
 msgstr ""
 
 #: editor/project_settings_editor.cpp
@@ -10416,8 +10444,9 @@ msgid "Instance Child Scene"
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
-msgid "Clear Script"
-msgstr ""
+#, fuzzy
+msgid "Detach Script"
+msgstr "Shkrim i Ri"
 
 #: editor/scene_tree_dock.cpp
 msgid "This operation can't be done on the tree root."
@@ -10450,6 +10479,11 @@ msgstr ""
 #: editor/scene_tree_dock.cpp
 msgid "Make node as Root"
 msgstr ""
+
+#: editor/scene_tree_dock.cpp
+#, fuzzy
+msgid "Delete %d nodes and any children?"
+msgstr "Fshi Nyjen"
 
 #: editor/scene_tree_dock.cpp
 #, fuzzy
@@ -10578,6 +10612,13 @@ msgid "Open Documentation"
 msgstr "Hap të Fundit"
 
 #: editor/scene_tree_dock.cpp
+msgid ""
+"Cannot attach a script: there are no languages registered.\n"
+"This is probably because this editor was built with all language modules "
+"disabled."
+msgstr ""
+
+#: editor/scene_tree_dock.cpp
 msgid "Add Child Node"
 msgstr ""
 
@@ -10627,11 +10668,11 @@ msgid ""
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
-msgid "Attach a new or existing script for the selected node."
+msgid "Attach a new or existing script to the selected node."
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
-msgid "Clear a script for the selected node."
+msgid "Detach the script from the selected node."
 msgstr ""
 
 #: editor/scene_tree_dock.cpp
@@ -10758,6 +10799,10 @@ msgid "A directory with the same name exists."
 msgstr "Një skedar ose folder me këtë emër ekziston që më parë."
 
 #: editor/script_create_dialog.cpp
+msgid "File does not exist."
+msgstr "Skedari nuk egziston."
+
+#: editor/script_create_dialog.cpp
 #, fuzzy
 msgid "Invalid extension."
 msgstr "Duhet të perdorësh një shtesë të lejuar."
@@ -10801,6 +10846,11 @@ msgstr ""
 
 #: editor/script_create_dialog.cpp
 #, fuzzy
+msgid "Invalid path."
+msgstr "Rruga e pasaktë."
+
+#: editor/script_create_dialog.cpp
+#, fuzzy
 msgid "Invalid class name."
 msgstr "Emër i palejuar."
 
@@ -10833,6 +10883,12 @@ msgstr ""
 #, fuzzy
 msgid "Script file already exists."
 msgstr "Emri i grupit ekziston që më parë."
+
+#: editor/script_create_dialog.cpp
+msgid ""
+"Note: Built-in scripts have some limitations and can't be edited using an "
+"external editor."
+msgstr ""
 
 #: editor/script_create_dialog.cpp
 #, fuzzy
@@ -10964,6 +11020,11 @@ msgstr ""
 #: editor/script_editor_debugger.cpp
 msgid "Total:"
 msgstr ""
+
+#: editor/script_editor_debugger.cpp
+#, fuzzy
+msgid "Export list to a CSV file"
+msgstr "Eksporto Projektin"
 
 #: editor/script_editor_debugger.cpp
 msgid "Resource Path"
@@ -11848,6 +11909,10 @@ msgid "Debug keystore not configured in the Editor Settings nor in the preset."
 msgstr ""
 
 #: platform/android/export/export.cpp
+msgid "Release keystore incorrectly configured in the export preset."
+msgstr ""
+
+#: platform/android/export/export.cpp
 msgid "Custom build requires a valid Android SDK path in Editor Settings."
 msgstr ""
 
@@ -11867,6 +11932,32 @@ msgstr ""
 
 #: platform/android/export/export.cpp
 msgid "Invalid package name:"
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"Invalid \"GodotPaymentV3\" module included in the \"android/modules\" "
+"project setting (changed in Godot 3.2.2).\n"
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid "\"Use Custom Build\" must be enabled to use the plugins."
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Degrees Of Freedom\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR"
+"\"."
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Hand Tracking\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR\"."
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Focus Awareness\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR\"."
 msgstr ""
 
 #: platform/android/export/export.cpp
@@ -12048,6 +12139,12 @@ msgstr ""
 msgid ""
 "A shape must be provided for CollisionShape2D to function. Please create a "
 "shape resource for it!"
+msgstr ""
+
+#: scene/2d/collision_shape_2d.cpp
+msgid ""
+"Polygon-based shapes are not meant be used nor edited directly through the "
+"CollisionShape2D node. Please use the CollisionPolygon2D node instead."
 msgstr ""
 
 #: scene/2d/cpu_particles_2d.cpp
@@ -12235,6 +12332,11 @@ msgstr ""
 msgid ""
 "Plane shapes don't work well and will be removed in future versions. Please "
 "don't use them."
+msgstr ""
+
+#: scene/3d/collision_shape.cpp
+msgid ""
+"ConcavePolygonShape doesn't support RigidBody in another mode than static."
 msgstr ""
 
 #: scene/3d/cpu_particles.cpp
@@ -12476,6 +12578,10 @@ msgid ""
 "texture to some node for display."
 msgstr ""
 
+#: scene/main/viewport.cpp
+msgid "Viewport size must be greater than 0 to render anything."
+msgstr ""
+
 #: scene/resources/visual_shader_nodes.cpp
 msgid "Invalid source for preview."
 msgstr ""
@@ -12503,6 +12609,26 @@ msgstr ""
 #: servers/visual/shader_language.cpp
 msgid "Constants cannot be modified."
 msgstr ""
+
+#~ msgid "Current scene was never saved, please save it prior to running."
+#~ msgstr ""
+#~ "Skena aktuale nuk është ruajtur më parë, ju lutem ruajeni para se të "
+#~ "filloni."
+
+#~ msgid "Not in resource path."
+#~ msgstr "Jo në rrugën e resurseve."
+
+#~ msgid "Revert"
+#~ msgstr "Rikthe"
+
+#~ msgid "This action cannot be undone. Revert anyway?"
+#~ msgstr "Ky veprim nuk mund të çbëhet. Rikthe gjithsesi?"
+
+#~ msgid "Revert Scene"
+#~ msgstr "Rikthe Skenën"
+
+#~ msgid "Issue Tracker"
+#~ msgstr "Gjurmuesi i Problemeve"
 
 #~ msgid ""
 #~ "There are currently no tutorials for this class, you can [color=$color]"

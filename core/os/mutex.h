@@ -34,7 +34,7 @@
 #include "core/error_list.h"
 #include "core/typedefs.h"
 
-#if !(defined NO_THREADS)
+#if !defined(NO_THREADS)
 
 #include <mutex>
 
@@ -71,9 +71,21 @@ public:
 	}
 };
 
+using Mutex = MutexImpl<std::recursive_mutex>; // Recursive, for general use
+using BinaryMutex = MutexImpl<std::mutex>; // Non-recursive, handle with care
+
+extern template class MutexImpl<std::recursive_mutex>;
+extern template class MutexImpl<std::mutex>;
+extern template class MutexLock<MutexImpl<std::recursive_mutex>>;
+extern template class MutexLock<MutexImpl<std::mutex>>;
+
 #else
 
-template <class StdMutexType>
+class FakeMutex {
+	FakeMutex() {}
+};
+
+template <class MutexT>
 class MutexImpl {
 public:
 	_ALWAYS_INLINE_ void lock() const {}
@@ -87,14 +99,9 @@ public:
 	explicit MutexLock(const MutexT &p_mutex) {}
 };
 
+using Mutex = MutexImpl<FakeMutex>;
+using BinaryMutex = MutexImpl<FakeMutex>; // Non-recursive, handle with care
+
 #endif // !NO_THREADS
 
-using Mutex = MutexImpl<std::recursive_mutex>; // Recursive, for general use
-using BinaryMutex = MutexImpl<std::mutex>; // Non-recursive, handle with care
-
-extern template class MutexImpl<std::recursive_mutex>;
-extern template class MutexImpl<std::mutex>;
-extern template class MutexLock<MutexImpl<std::recursive_mutex> >;
-extern template class MutexLock<MutexImpl<std::mutex> >;
-
-#endif
+#endif // MUTEX_H

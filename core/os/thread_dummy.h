@@ -36,7 +36,6 @@
 #include "core/os/thread.h"
 
 class ThreadDummy : public Thread {
-
 	static Thread *create(ThreadCreateCallback p_callback, void *p_user, const Settings &p_settings = Settings());
 
 public:
@@ -45,20 +44,7 @@ public:
 	static void make_default();
 };
 
-class SemaphoreDummy : public SemaphoreOld {
-
-	static SemaphoreOld *create();
-
-public:
-	virtual Error wait() { return OK; };
-	virtual Error post() { return OK; };
-	virtual int get() const { return 0; }; ///< get semaphore value
-
-	static void make_default();
-};
-
 class RWLockDummy : public RWLock {
-
 	static RWLock *create();
 
 public:
@@ -73,4 +59,4 @@ public:
 	static void make_default();
 };
 
-#endif
+#endif // THREAD_DUMMY_H

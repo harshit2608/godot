@@ -30,10 +30,9 @@
 
 #include "scene_string_names.h"
 
-SceneStringNames *SceneStringNames::singleton = NULL;
+SceneStringNames *SceneStringNames::singleton = nullptr;
 
 SceneStringNames::SceneStringNames() {
-
 	_estimate_cost = StaticCString::create("_estimate_cost");
 	_compute_cost = StaticCString::create("_compute_cost");
 
@@ -62,6 +61,8 @@ SceneStringNames::SceneStringNames() {
 	animation_finished = StaticCString::create("animation_finished");
 	animation_changed = StaticCString::create("animation_changed");
 	animation_started = StaticCString::create("animation_started");
+
+	pose_updated = StaticCString::create("pose_updated");
 
 	mouse_entered = StaticCString::create("mouse_entered");
 	mouse_exited = StaticCString::create("mouse_exited");
@@ -189,11 +190,24 @@ SceneStringNames::SceneStringNames() {
 	_default = StaticCString::create("default");
 
 	for (int i = 0; i < MAX_MATERIALS; i++) {
-
 		mesh_materials[i] = "material/" + itos(i);
 	}
 
+	_window_group = StaticCString::create("_window_group");
+	_window_input = StaticCString::create("_window_input");
+	window_input = StaticCString::create("window_input");
+	_window_unhandled_input = StaticCString::create("_window_unhandled_input");
+
+	theme_changed = StaticCString::create("theme_changed");
 	parameters_base_path = "parameters/";
 
 	tracks_changed = "tracks_changed";
+
+	shader_overrides_group = StaticCString::create("_shader_overrides_group_");
+	shader_overrides_group_active = StaticCString::create("_shader_overrides_group_active_");
+
+#ifndef DISABLE_DEPRECATED
+	use_in_baked_light = StaticCString::create("use_in_baked_light");
+	use_dynamic_gi = StaticCString::create("use_dynamic_gi");
+#endif
 }

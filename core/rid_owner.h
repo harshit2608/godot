@@ -31,14 +31,19 @@
 #ifndef RID_OWNER_H
 #define RID_OWNER_H
 
+#include "core/list.h"
+#include "core/oa_hash_map.h"
+#include "core/os/memory.h"
 #include "core/print_string.h"
 #include "core/rid.h"
+#include "core/safe_refcount.h"
+#include "core/set.h"
 #include "core/spin_lock.h"
+
 #include <stdio.h>
 #include <typeinfo>
 
 class RID_AllocBase {
-
 	static volatile uint64_t base_id;
 
 protected:
@@ -62,22 +67,20 @@ public:
 
 template <class T, bool THREAD_SAFE = false>
 class RID_Alloc : public RID_AllocBase {
-
-	T **chunks;
-	uint32_t **free_list_chunks;
-	uint32_t **validator_chunks;
+	T **chunks = nullptr;
+	uint32_t **free_list_chunks = nullptr;
+	uint32_t **validator_chunks = nullptr;
 
 	uint32_t elements_in_chunk;
-	uint32_t max_alloc;
-	uint32_t alloc_count;
+	uint32_t max_alloc = 0;
+	uint32_t alloc_count = 0;
 
-	const char *description;
+	const char *description = nullptr;
 
 	SpinLock spin_lock;
 
 public:
 	RID make_rid(const T &p_value) {
-
 		if (THREAD_SAFE) {
 			spin_lock.lock();
 		}
@@ -131,7 +134,6 @@ public:
 	}
 
 	_FORCE_INLINE_ T *getornull(const RID &p_rid) {
-
 		if (THREAD_SAFE) {
 			spin_lock.lock();
 		}
@@ -142,7 +144,7 @@ public:
 			if (THREAD_SAFE) {
 				spin_lock.unlock();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		uint32_t idx_chunk = idx / elements_in_chunk;
@@ -153,7 +155,7 @@ public:
 			if (THREAD_SAFE) {
 				spin_lock.unlock();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		T *ptr = &chunks[idx_chunk][idx_element];
@@ -166,7 +168,6 @@ public:
 	}
 
 	_FORCE_INLINE_ bool owns(const RID &p_rid) {
-
 		if (THREAD_SAFE) {
 			spin_lock.lock();
 		}
@@ -195,7 +196,6 @@ public:
 	}
 
 	_FORCE_INLINE_ void free(const RID &p_rid) {
-
 		if (THREAD_SAFE) {
 			spin_lock.lock();
 		}
@@ -236,7 +236,7 @@ public:
 	}
 
 	_FORCE_INLINE_ T *get_ptr_by_index(uint32_t p_index) {
-		ERR_FAIL_INDEX_V(p_index, alloc_count, NULL);
+		ERR_FAIL_UNSIGNED_INDEX_V(p_index, alloc_count, nullptr);
 		if (THREAD_SAFE) {
 			spin_lock.lock();
 		}
@@ -283,14 +283,7 @@ public:
 	}
 
 	RID_Alloc(uint32_t p_target_chunk_byte_size = 4096) {
-		chunks = NULL;
-		free_list_chunks = NULL;
-		validator_chunks = NULL;
-
 		elements_in_chunk = sizeof(T) > p_target_chunk_byte_size ? 1 : (p_target_chunk_byte_size / sizeof(T));
-		max_alloc = 0;
-		alloc_count = 0;
-		description = NULL;
 	}
 
 	~RID_Alloc() {
@@ -298,7 +291,11 @@ public:
 			if (description) {
 				print_error("ERROR: " + itos(alloc_count) + " RID allocations of type '" + description + "' were leaked at exit.");
 			} else {
+#ifdef NO_SAFE_CAST
+				print_error("ERROR: " + itos(alloc_count) + " RID allocations of type 'unknown' were leaked at exit.");
+#else
 				print_error("ERROR: " + itos(alloc_count) + " RID allocations of type '" + typeid(T).name() + "' were leaked at exit.");
+#endif
 			}
 
 			for (size_t i = 0; i < max_alloc; i++) {
@@ -336,7 +333,7 @@ public:
 	_FORCE_INLINE_ T *getornull(const RID &p_rid) {
 		T **ptr = alloc.getornull(p_rid);
 		if (unlikely(!ptr)) {
-			return NULL;
+			return nullptr;
 		}
 		return *ptr;
 	}
@@ -403,4 +400,5 @@ public:
 	RID_Owner(uint32_t p_target_chunk_byte_size = 4096) :
 			alloc(p_target_chunk_byte_size) {}
 };
+
 #endif // RID_OWNER_H

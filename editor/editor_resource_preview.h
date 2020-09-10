@@ -37,7 +37,6 @@
 #include "scene/resources/texture.h"
 
 class EditorResourcePreviewGenerator : public Reference {
-
 	GDCLASS(EditorResourcePreviewGenerator, Reference);
 
 protected:
@@ -55,7 +54,6 @@ public:
 };
 
 class EditorResourcePreview : public Node {
-
 	GDCLASS(EditorResourcePreview, Node);
 
 	static EditorResourcePreview *singleton;
@@ -71,7 +69,7 @@ class EditorResourcePreview : public Node {
 	List<QueueItem> queue;
 
 	Mutex preview_mutex;
-	SemaphoreOld *preview_sem;
+	Semaphore preview_sem;
 	Thread *thread;
 	volatile bool exit;
 	volatile bool exited;
@@ -94,7 +92,7 @@ class EditorResourcePreview : public Node {
 	static void _thread_func(void *ud);
 	void _thread();
 
-	Vector<Ref<EditorResourcePreviewGenerator> > preview_generators;
+	Vector<Ref<EditorResourcePreviewGenerator>> preview_generators;
 
 protected:
 	static void _bind_methods();

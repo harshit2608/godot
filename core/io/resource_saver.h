@@ -50,7 +50,6 @@ public:
 typedef void (*ResourceSavedCallback)(Ref<Resource> p_resource, const String &p_path);
 
 class ResourceSaver {
-
 	enum {
 		MAX_SAVERS = 64
 	};
@@ -90,4 +89,4 @@ public:
 	static void remove_custom_savers();
 };
 
-#endif
+#endif // RESOURCE_SAVER_H

@@ -4,10 +4,10 @@
 		Built-in string class.
 	</brief_description>
 	<description>
-		This is the built-in string class (and the one used by GDScript). It supports Unicode and provides all necessary means for string handling. Strings are reference counted and use a copy-on-write approach, so passing them around is cheap in resources.
+		This is the built-in string class (and the one used by GDScript). It supports Unicode and provides all necessary means for string handling. Strings are reference-counted and use a copy-on-write approach, so passing them around is cheap in resources.
 	</description>
 	<tutorials>
-		<link>https://docs.godotengine.org/en/latest/getting_started/scripting/gdscript/gdscript_format_string.html</link>
+		<link title="GDScript format strings">https://docs.godotengine.org/en/latest/getting_started/scripting/gdscript/gdscript_format_string.html</link>
 	</tutorials>
 	<methods>
 		<method name="String">
@@ -325,14 +325,15 @@
 			<return type="String">
 			</return>
 			<description>
-				Returns a copy of the string with escaped characters replaced by their meanings according to the C language standard.
+				Returns a copy of the string with escaped characters replaced by their meanings. Supported escape sequences are [code]\'[/code], [code]\"[/code], [code]\?[/code], [code]\\[/code], [code]\a[/code], [code]\b[/code], [code]\f[/code], [code]\n[/code], [code]\r[/code], [code]\t[/code], [code]\v[/code].
+				[b]Note:[/b] Unlike the GDScript parser, this method doesn't support the [code]\uXXXX[/code] escape sequence.
 			</description>
 		</method>
 		<method name="capitalize">
 			<return type="String">
 			</return>
 			<description>
-				Changes the case of some letters. Replaces underscores with spaces, converts all letters to lowercase, then capitalizes first and every letter following the space character. For [code]capitalize camelCase mixed_with_underscores[/code], it will return [code]Capitalize Camelcase Mixed With Underscores[/code].
+				Changes the case of some letters. Replaces underscores with spaces, adds spaces before in-word uppercase characters, converts all letters to lowercase, then capitalizes the first letter and every letter following a space character. For [code]capitalize camelCase mixed_with_underscores[/code], it will return [code]Capitalize Camel Case Mixed With Underscores[/code].
 			</description>
 		</method>
 		<method name="casecmp_to">
@@ -381,7 +382,7 @@
 			<return type="bool">
 			</return>
 			<description>
-				Returns [code]true[/code] if the string is empty.
+				Returns [code]true[/code] if the length of the string equals [code]0[/code].
 			</description>
 		</method>
 		<method name="ends_with">
@@ -412,16 +413,13 @@
 			<argument index="1" name="from" type="int" default="0">
 			</argument>
 			<description>
-				Finds the first occurrence of a substring. Returns the starting position of the substring or -1 if not found. Optionally, the initial search index can be passed.
-			</description>
-		</method>
-		<method name="find_last">
-			<return type="int">
-			</return>
-			<argument index="0" name="what" type="String">
-			</argument>
-			<description>
-				Finds the last occurrence of a substring. Returns the starting position of the substring or -1 if not found.
+				Returns the index of the [b]first[/b] case-sensitive occurrence of the specified string in this instance, or [code]-1[/code]. Optionally, the starting search index can be specified, continuing to the end of the string.
+				[b]Note:[/b] If you just want to know whether a string contains a substring, use the [code]in[/code] operator as follows:
+				[codeblock]
+				# Will evaluate to `false`.
+				if "i" in "team":
+				    pass
+				[/codeblock]
 			</description>
 		</method>
 		<method name="findn">
@@ -432,7 +430,7 @@
 			<argument index="1" name="from" type="int" default="0">
 			</argument>
 			<description>
-				Finds the first occurrence of a substring, ignoring case. Returns the starting position of the substring or -1 if not found. Optionally, the initial search index can be passed.
+				Returns the index of the [b]first[/b] case-insensitive occurrence of the specified string in this instance, or [code]-1[/code]. Optionally, the starting search index can be specified, continuing to the end of the string.
 			</description>
 		</method>
 		<method name="format">
@@ -440,7 +438,7 @@
 			</return>
 			<argument index="0" name="values" type="Variant">
 			</argument>
-			<argument index="1" name="placeholder" type="String" default="{_}">
+			<argument index="1" name="placeholder" type="String" default="&quot;{_}&quot;">
 			</argument>
 			<description>
 				Formats the string by replacing all occurrences of [code]placeholder[/code] with [code]values[/code].
@@ -586,7 +584,7 @@
 		<method name="is_valid_hex_number">
 			<return type="bool">
 			</return>
-			<argument index="0" name="with_prefix" type="bool" default="False">
+			<argument index="0" name="with_prefix" type="bool" default="false">
 			</argument>
 			<description>
 				Returns [code]true[/code] if this string contains a valid hexadecimal number. If [code]with_prefix[/code] is [code]true[/code], then a validity of the hexadecimal number is determined by [code]0x[/code] prefix, for instance: [code]0xDEADC0DE[/code].
@@ -620,6 +618,19 @@
 				Returns [code]true[/code] if this string contains a valid IP address.
 			</description>
 		</method>
+		<method name="join">
+			<return type="String">
+			</return>
+			<argument index="0" name="parts" type="PackedStringArray">
+			</argument>
+			<description>
+				Return a [String] which is the concatenation of the [code]parts[/code]. The separator between elements is the string providing this method.
+				Example:
+				[codeblock]
+				print(", ".join(["One", "Two", "Three", "Four"]))
+				[/codeblock]
+			</description>
+		</method>
 		<method name="json_escape">
 			<return type="String">
 			</return>
@@ -641,6 +652,17 @@
 			</return>
 			<description>
 				Returns the string's amount of characters.
+			</description>
+		</method>
+		<method name="lpad">
+			<return type="String">
+			</return>
+			<argument index="0" name="min_length" type="int">
+			</argument>
+			<argument index="1" name="character" type="String" default="&quot; &quot;">
+			</argument>
+			<description>
+				Formats a string to be at least [code]min_length[/code] long by adding [code]character[/code]s to the left of the string.
 			</description>
 		</method>
 		<method name="lstrip">
@@ -682,6 +704,15 @@
 			</return>
 			<description>
 				Returns the MD5 hash of the string as a string.
+			</description>
+		</method>
+		<method name="naturalnocasecmp_to">
+			<return type="int">
+			</return>
+			<argument index="0" name="to" type="String">
+			</argument>
+			<description>
+				Performs a case-insensitive natural order comparison to another string. Returns [code]-1[/code] if less than, [code]+1[/code] if greater than, or [code]0[/code] if equal.
 			</description>
 		</method>
 		<method name="nocasecmp_to">
@@ -782,7 +813,7 @@
 			<argument index="1" name="from" type="int" default="-1">
 			</argument>
 			<description>
-				Performs a case-sensitive search for a substring, but starts from the end of the string instead of the beginning.
+				Returns the index of the [b]last[/b] case-sensitive occurrence of the specified string in this instance, or [code]-1[/code]. Optionally, the starting search index can be specified, continuing to the beginning of the string.
 			</description>
 		</method>
 		<method name="rfindn">
@@ -793,7 +824,7 @@
 			<argument index="1" name="from" type="int" default="-1">
 			</argument>
 			<description>
-				Performs a case-insensitive search for a substring, but starts from the end of the string instead of the beginning.
+				Returns the index of the [b]last[/b] case-insensitive occurrence of the specified string in this instance, or [code]-1[/code]. Optionally, the starting search index can be specified, continuing to the beginning of the string.
 			</description>
 		</method>
 		<method name="right">
@@ -805,12 +836,23 @@
 				Returns the right side of the string from a given position.
 			</description>
 		</method>
+		<method name="rpad">
+			<return type="String">
+			</return>
+			<argument index="0" name="min_length" type="int">
+			</argument>
+			<argument index="1" name="character" type="String" default="&quot; &quot;">
+			</argument>
+			<description>
+				Formats a string to be at least [code]min_length[/code] long by adding [code]character[/code]s to the right of the string.
+			</description>
+		</method>
 		<method name="rsplit">
 			<return type="PackedStringArray">
 			</return>
 			<argument index="0" name="delimiter" type="String">
 			</argument>
-			<argument index="1" name="allow_empty" type="bool" default="True">
+			<argument index="1" name="allow_empty" type="bool" default="true">
 			</argument>
 			<argument index="2" name="maxsplit" type="int" default="0">
 			</argument>
@@ -879,13 +921,13 @@
 			</return>
 			<argument index="0" name="delimiter" type="String">
 			</argument>
-			<argument index="1" name="allow_empty" type="bool" default="True">
+			<argument index="1" name="allow_empty" type="bool" default="true">
 			</argument>
 			<argument index="2" name="maxsplit" type="int" default="0">
 			</argument>
 			<description>
-				Splits the string by a [code]delimiter[/code] string and returns an array of the substrings.
-				If [code]maxsplit[/code] is specified, it defines the number of splits to do from the left up to [code]maxsplit[/code]. The default value of 0 means that all items are split.
+				Splits the string by a [code]delimiter[/code] string and returns an array of the substrings. The [code]delimiter[/code] can be of any length.
+				If [code]maxsplit[/code] is specified, it defines the number of splits to do from the left up to [code]maxsplit[/code]. The default value of [code]0[/code] means that all items are split.
 				Example:
 				[codeblock]
 				var some_string = "One,Two,Three,Four"
@@ -894,6 +936,7 @@
 				print(some_array[0]) # Prints "One"
 				print(some_array[1]) # Prints "Two,Three,Four"
 				[/codeblock]
+				If you need to split strings with more complex rules, use the [RegEx] class instead.
 			</description>
 		</method>
 		<method name="split_floats">
@@ -901,7 +944,7 @@
 			</return>
 			<argument index="0" name="delimiter" type="String">
 			</argument>
-			<argument index="1" name="allow_empty" type="bool" default="True">
+			<argument index="1" name="allow_empty" type="bool" default="true">
 			</argument>
 			<description>
 				Splits the string in floats by using a delimiter string and returns an array of the substrings.
@@ -911,9 +954,9 @@
 		<method name="strip_edges">
 			<return type="String">
 			</return>
-			<argument index="0" name="left" type="bool" default="True">
+			<argument index="0" name="left" type="bool" default="true">
 			</argument>
-			<argument index="1" name="right" type="bool" default="True">
+			<argument index="1" name="right" type="bool" default="true">
 			</argument>
 			<description>
 				Returns a copy of the string stripped of any non-printable character (including tabulations, spaces and line breaks) at the beginning and the end. The optional arguments are used to toggle stripping on the left and right edges respectively.
@@ -934,14 +977,14 @@
 			<argument index="1" name="len" type="int" default="-1">
 			</argument>
 			<description>
-				Returns part of the string from the position [code]from[/code] with length [code]len[/code]. Argument [code]len[/code] is optional and using -1 will return remaining characters from given position.
+				Returns part of the string from the position [code]from[/code] with length [code]len[/code]. Argument [code]len[/code] is optional and using [code]-1[/code] will return remaining characters from given position.
 			</description>
 		</method>
 		<method name="to_ascii">
 			<return type="PackedByteArray">
 			</return>
 			<description>
-				Converts the String (which is a character array) to [PackedByteArray] (which is an array of bytes). The conversion is faster compared to [method to_utf8], as this method assumes that all the characters in the String are ASCII characters.
+				Converts the String (which is a character array) to ASCII/Latin-1 encoded [PackedByteArray] (which is an array of bytes). The conversion is faster compared to [method to_utf8], as this method assumes that all the characters in the String are ASCII/Latin-1 characters, unsupported characters are replaced with spaces.
 			</description>
 		</method>
 		<method name="to_float">
@@ -972,11 +1015,25 @@
 				Returns the string converted to uppercase.
 			</description>
 		</method>
+		<method name="to_utf16">
+			<return type="PackedByteArray">
+			</return>
+			<description>
+				Converts the String (which is an array of characters) to UTF-16 encoded [PackedByteArray] (which is an array of bytes).
+			</description>
+		</method>
+		<method name="to_utf32">
+			<return type="PackedByteArray">
+			</return>
+			<description>
+				Converts the String (which is an array of characters) to UTF-32 encoded [PackedByteArray] (which is an array of bytes).
+			</description>
+		</method>
 		<method name="to_utf8">
 			<return type="PackedByteArray">
 			</return>
 			<description>
-				Converts the String (which is an array of characters) to [PackedByteArray] (which is an array of bytes). The conversion is a bit slower than [method to_ascii], but supports all UTF-8 characters. Therefore, you should prefer this function over [method to_ascii].
+				Converts the String (which is an array of characters) to UTF-8 encode [PackedByteArray] (which is an array of bytes). The conversion is a bit slower than [method to_ascii], but supports all UTF-8 characters. Therefore, you should prefer this function over [method to_ascii].
 			</description>
 		</method>
 		<method name="trim_prefix">

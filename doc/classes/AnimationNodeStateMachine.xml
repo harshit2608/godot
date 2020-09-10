@@ -12,7 +12,7 @@
 		[/codeblock]
 	</description>
 	<tutorials>
-		<link>https://docs.godotengine.org/en/latest/tutorials/animation/animation_tree.html</link>
+		<link title="AnimationTree">https://docs.godotengine.org/en/latest/tutorials/animation/animation_tree.html</link>
 	</tutorials>
 	<methods>
 		<method name="add_node">
@@ -181,6 +181,16 @@
 			</argument>
 			<description>
 				Renames the given node.
+			</description>
+		</method>
+		<method name="replace_node">
+			<return type="void">
+			</return>
+			<argument index="0" name="name" type="StringName">
+			</argument>
+			<argument index="1" name="node" type="AnimationNode">
+			</argument>
+			<description>
 			</description>
 		</method>
 		<method name="set_end_node">

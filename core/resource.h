@@ -40,16 +40,19 @@
 #define RES_BASE_EXTENSION(m_ext)                                                                                   \
 public:                                                                                                             \
 	static void register_custom_data_to_otdb() { ClassDB::add_resource_base_extension(m_ext, get_class_static()); } \
-	virtual String get_base_extension() const { return m_ext; }                                                     \
+	virtual String get_base_extension() const override { return m_ext; }                                            \
                                                                                                                     \
 private:
 
 class Resource : public Reference {
-
 	GDCLASS(Resource, Reference);
 	OBJ_CATEGORY("Resources");
-	RES_BASE_EXTENSION("res");
 
+public:
+	static void register_custom_data_to_otdb() { ClassDB::add_resource_base_extension("res", get_class_static()); }
+	virtual String get_base_extension() const { return "res"; }
+
+private:
 	Set<ObjectID> owners;
 
 	friend class ResBase;
@@ -57,19 +60,19 @@ class Resource : public Reference {
 
 	String name;
 	String path_cache;
-	int subindex;
+	int subindex = 0;
 
 	virtual bool _use_builtin_script() const { return true; }
 
 #ifdef TOOLS_ENABLED
-	uint64_t last_modified_time;
-	uint64_t import_last_modified_time;
+	uint64_t last_modified_time = 0;
+	uint64_t import_last_modified_time = 0;
 	String import_path;
 #endif
 
-	bool local_to_scene;
+	bool local_to_scene = false;
 	friend class SceneState;
-	Node *local_scene;
+	Node *local_scene = nullptr;
 
 	SelfList<Resource> remapped_list;
 
@@ -103,8 +106,8 @@ public:
 	int get_subindex() const;
 
 	virtual Ref<Resource> duplicate(bool p_subresources = false) const;
-	Ref<Resource> duplicate_for_local_scene(Node *p_for_scene, Map<Ref<Resource>, Ref<Resource> > &remap_cache);
-	void configure_for_local_scene(Node *p_for_scene, Map<Ref<Resource>, Ref<Resource> > &remap_cache);
+	Ref<Resource> duplicate_for_local_scene(Node *p_for_scene, Map<Ref<Resource>, Ref<Resource>> &remap_cache);
+	void configure_for_local_scene(Node *p_for_scene, Map<Ref<Resource>, Ref<Resource>> &remap_cache);
 
 	void set_local_to_scene(bool p_enable);
 	bool is_local_to_scene() const;
@@ -150,7 +153,7 @@ class ResourceCache {
 	static RWLock *lock;
 	static HashMap<String, Resource *> resources;
 #ifdef TOOLS_ENABLED
-	static HashMap<String, HashMap<String, int> > resource_path_cache; // each tscn has a set of resource paths and IDs
+	static HashMap<String, HashMap<String, int>> resource_path_cache; // each tscn has a set of resource paths and IDs
 	static RWLock *path_cache_lock;
 #endif // TOOLS_ENABLED
 	friend void unregister_core_types();
@@ -162,9 +165,9 @@ public:
 	static void reload_externals();
 	static bool has(const String &p_path);
 	static Resource *get(const String &p_path);
-	static void dump(const char *p_file = NULL, bool p_short = false);
-	static void get_cached_resources(List<Ref<Resource> > *p_resources);
+	static void dump(const char *p_file = nullptr, bool p_short = false);
+	static void get_cached_resources(List<Ref<Resource>> *p_resources);
 	static int get_cached_resource_count();
 };
 
-#endif
+#endif // RESOURCE_H

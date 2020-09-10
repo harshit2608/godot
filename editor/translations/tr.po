@@ -42,12 +42,21 @@
 # Muhammet Mustafa Tozlu <m.mustafatozlu@gmail.com>, 2019.
 # HALİL ATAŞ <halillatass@gmail.com>, 2019.
 # Zsosu Ktosu <zktosu@gmail.com>, 2020.
+# Mesut Aslan <kontinyu@gmail.com>, 2020.
+# Kaan Genç <kaan@kaangenc.me>, 2020.
+# Anonymous <noreply@weblate.org>, 2020.
+# Güneş Gümüş <gunes.gumus.001@gmail.com>, 2020.
+# Oğuz Ersen <oguzersen@protonmail.com>, 2020.
+# Vedat Günel <gunel15@itu.edu.tr>, 2020.
+# Ahmet Elgün <ahmetelgn@gmail.com>, 2020.
+# Efruz Yıldırır <efruzyildirir@gmail.com>, 2020.
+# Hazar <duurkak@yandex.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Godot Engine editor\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2020-01-30 03:56+0000\n"
-"Last-Translator: Zsosu Ktosu <zktosu@gmail.com>\n"
+"PO-Revision-Date: 2020-08-20 15:20+0000\n"
+"Last-Translator: Hazar <duurkak@yandex.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/godot-engine/"
 "godot/tr/>\n"
 "Language: tr\n"
@@ -55,18 +64,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: core/math/expression.cpp modules/gdscript/gdscript_functions.cpp
 #: modules/visual_script/visual_script_builtin_funcs.cpp
 msgid "Invalid type argument to convert(), use TYPE_* constants."
-msgstr ""
-"\"convert ()\" için geçersiz tür bağımsız değişkeni, \"TYPE_ *\" sabitlerini "
-"kullanın."
+msgstr "convert() için geçersiz türde argüman, TYPE_* sabitlerini kullanın."
 
 #: core/math/expression.cpp modules/gdscript/gdscript_functions.cpp
 msgid "Expected a string of length 1 (a character)."
-msgstr "1 (karakter) uzunlukta metin bekleniyor."
+msgstr "1 uzunluğunda bir metin (bir karakter) bekleniyor."
 
 #: core/math/expression.cpp modules/gdscript/gdscript_functions.cpp
 #: modules/mono/glue/gd_glue.cpp
@@ -352,7 +359,7 @@ msgstr "Döngü Aradeğerlemesin Sar"
 #: editor/animation_track_editor.cpp
 #: editor/plugins/canvas_item_editor_plugin.cpp
 msgid "Insert Key"
-msgstr "Yeni Anahtar"
+msgstr "Anahtar Ekle"
 
 #: editor/animation_track_editor.cpp
 msgid "Duplicate Key(s)"
@@ -530,12 +537,12 @@ msgstr ""
 "Bu animasyon içe aktarılmış bir sahneye ait, bu yüzden içe aktarılan "
 "parçalara yapılan değişiklikler kaydedilmeyecek.\n"
 "\n"
-"Özel parça ekleme özelliğini aktif etmek için, sahnenin içe aktarma "
-"ayarlarına gidin ve \"Animasyon > Depolama\" ayarını \"Dosyalama\" olarak "
-"ayarlayın, \"Animasyon > Özel Parçaları Sakla\"ayarını aktif edin ve sonra "
-"tekrar içe aktarın.\n"
-"Alternatif olarak, animasyonları ayrı dosyalara aktaran bir içe aktarma "
-"hazır ayarı kullanabilirsiniz."
+"Özel parça ekleme özelliğini etkinleştirmek için, sahnenin içe aktarma "
+"ayarlarına gidin ve \"Animasyon > Depolama\"\n"
+"ayarını \"Dosyalama\" olarak ayarlayın, \"Animasyon > Özel Parçaları Sakla\" "
+"ayarını etkinleştirin ve sonra tekrar içe aktarın.\n"
+"Alternatif olarak, animasyonları ayrı dosyalara aktaran bir içe aktarma ön "
+"ayarı kullanabilirsiniz."
 
 #: editor/animation_track_editor.cpp
 msgid "Warning: Editing imported animation"
@@ -726,9 +733,8 @@ msgid "Line Number:"
 msgstr "Satır Numarası:"
 
 #: editor/code_editor.cpp
-#, fuzzy
 msgid "%d replaced."
-msgstr "Değiştir..."
+msgstr "%d değiştirildi."
 
 #: editor/code_editor.cpp editor/editor_help.cpp
 msgid "%d match."
@@ -794,6 +800,10 @@ msgstr "Satır ve sütun numaraları."
 #: editor/connections_dialog.cpp
 msgid "Method in target node must be specified."
 msgstr "Hedef düğümdeki metod tanımlanmalı."
+
+#: editor/connections_dialog.cpp
+msgid "Method name must be a valid identifier."
+msgstr "Metod ismi geçerli bir tanımlayıcı değil."
 
 #: editor/connections_dialog.cpp
 msgid ""
@@ -877,7 +887,6 @@ msgstr "Sinyale bağlanamıyor"
 #: editor/export_template_manager.cpp editor/groups_editor.cpp
 #: editor/plugins/animation_player_editor_plugin.cpp
 #: editor/plugins/asset_library_editor_plugin.cpp
-#: editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/resource_preloader_editor_plugin.cpp
 #: editor/plugins/script_editor_plugin.cpp
 #: editor/plugins/sprite_frames_editor_plugin.cpp
@@ -898,7 +907,7 @@ msgstr "Sinyal:"
 
 #: editor/connections_dialog.cpp
 msgid "Connect '%s' to '%s'"
-msgstr "Bunu '%s'  şuna '%s' bağla"
+msgstr "'%s' sinyalini '%s' yöntemine bağla"
 
 #: editor/connections_dialog.cpp
 msgid "Disconnect '%s' from '%s'"
@@ -1152,6 +1161,9 @@ msgstr "Projenin Kurucuları"
 msgid "Lead Developer"
 msgstr "Baş Geliştirici"
 
+#. TRANSLATORS: This refers to a job title.
+#. The trailing space is used to distinguish with the project list application,
+#. you do not have to keep it in your translation.
 #: editor/editor_about.cpp
 msgid "Project Manager "
 msgstr "Proje Yöneticisi "
@@ -1171,6 +1183,16 @@ msgstr "Platin Sponsorlar"
 #: editor/editor_about.cpp
 msgid "Gold Sponsors"
 msgstr "Altın Sponsorlar"
+
+#: editor/editor_about.cpp
+#, fuzzy
+msgid "Silver Sponsors"
+msgstr "Gümüş Bağışçılar"
+
+#: editor/editor_about.cpp
+#, fuzzy
+msgid "Bronze Sponsors"
+msgstr "Bronz Bağışçılar"
 
 #: editor/editor_about.cpp
 msgid "Mini Sponsors"
@@ -1215,7 +1237,7 @@ msgstr ""
 
 #: editor/editor_about.cpp
 msgid "All Components"
-msgstr "Tüm  Bileşenler"
+msgstr "Tüm Bileşenler"
 
 #: editor/editor_about.cpp
 msgid "Components"
@@ -1481,7 +1503,7 @@ msgstr "KendindenYüklenme'yi Taşı"
 msgid "Remove Autoload"
 msgstr "KendindenYüklenme'yi Kaldır"
 
-#: editor/editor_autoload_settings.cpp
+#: editor/editor_autoload_settings.cpp editor/editor_plugin_settings.cpp
 msgid "Enable"
 msgstr "Etkin"
 
@@ -1489,17 +1511,9 @@ msgstr "Etkin"
 msgid "Rearrange Autoloads"
 msgstr "KendindenYüklenme'leri Yeniden Sırala"
 
-#: editor/editor_autoload_settings.cpp editor/script_create_dialog.cpp
-msgid "Invalid path."
-msgstr "Geçersiz yol."
-
-#: editor/editor_autoload_settings.cpp editor/script_create_dialog.cpp
-msgid "File does not exist."
-msgstr "Dosya yok."
-
 #: editor/editor_autoload_settings.cpp
-msgid "Not in resource path."
-msgstr "Kaynak yolunda değil."
+msgid "Can't add autoload:"
+msgstr "Otomatik yükleme eklenemiyor:"
 
 #: editor/editor_autoload_settings.cpp
 msgid "Add AutoLoad"
@@ -1525,6 +1539,10 @@ msgstr "İsim"
 #: editor/editor_autoload_settings.cpp
 msgid "Singleton"
 msgstr "Tekil"
+
+#: editor/editor_data.cpp editor/inspector_dock.cpp
+msgid "Paste Params"
+msgstr "Parametreleri Yapıştır"
 
 #: editor/editor_data.cpp
 msgid "Updating Scene"
@@ -1721,7 +1739,7 @@ msgstr ""
 
 #: editor/editor_feature_profile.cpp
 msgid "Error saving profile to path: '%s'."
-msgstr "Profil yolu kaydetme hatası:  '%s'."
+msgstr "Profil '%s' yoluna kaydedilirken hata oluştu."
 
 #: editor/editor_feature_profile.cpp
 msgid "Unset"
@@ -1811,7 +1829,7 @@ msgstr "Dosya Yöneticisinde Göster"
 msgid "New Folder..."
 msgstr "Yeni Klasör..."
 
-#: editor/editor_file_dialog.cpp
+#: editor/editor_file_dialog.cpp editor/find_in_files.cpp
 #: editor/plugins/version_control_editor_plugin.cpp
 msgid "Refresh"
 msgstr "Yenile"
@@ -2362,10 +2380,6 @@ msgid "There is no defined scene to run."
 msgstr "Çalıştırmak için herhangi bir sahne seçilmedi."
 
 #: editor/editor_node.cpp
-msgid "Current scene was never saved, please save it prior to running."
-msgstr "Şimdiki sahne hiç kaydedilmedi, lütfen çalıştırmadan önce kaydediniz."
-
-#: editor/editor_node.cpp
 msgid "Could not start subprocess!"
 msgstr "Alt işlem başlatılamadı!"
 
@@ -2427,7 +2441,7 @@ msgstr "Bu işlem bir sahne olmadan yapılamaz."
 
 #: editor/editor_node.cpp
 msgid "Export Mesh Library"
-msgstr "Örüntü Betikevini Dışa Aktar"
+msgstr "Örüntü Kütüphanesini Dışa Aktar"
 
 #: editor/editor_node.cpp
 msgid "This operation can't be done without a root node."
@@ -2450,12 +2464,16 @@ msgid "Can't reload a scene that was never saved."
 msgstr "Hiç kaydedilmemiş bir sahne yeniden yüklenemiyor."
 
 #: editor/editor_node.cpp
-msgid "Revert"
-msgstr "Geri dön"
+msgid "Reload Saved Scene"
+msgstr "Kaydedilmiş Sahneyi Yeniden Yükle"
 
 #: editor/editor_node.cpp
-msgid "This action cannot be undone. Revert anyway?"
-msgstr "Bu eylem geri alınamaz. Yine de geri dönsün mü?"
+msgid ""
+"The current scene has unsaved changes.\n"
+"Reload the saved scene anyway? This action cannot be undone."
+msgstr ""
+"Mevcut sahnede kaydedilmemiş değişiklikler var.\n"
+"Sahne yine de yeniden yüklensin mi? Bu işlem geri alınamaz."
 
 #: editor/editor_node.cpp
 msgid "Quick Run Scene..."
@@ -2479,7 +2497,7 @@ msgstr "Kaydet & Çık"
 
 #: editor/editor_node.cpp
 msgid "Save changes to the following scene(s) before quitting?"
-msgstr "Çıkmadan önce değişiklikler aşağıdaki sahneye(lere)  kaydedilsin mi?"
+msgstr "Çıkmadan önce değişiklikler aşağıdaki sahne(ler)e kaydedilsin mi?"
 
 #: editor/editor_node.cpp
 msgid "Save changes the following scene(s) before opening Project Manager?"
@@ -2492,8 +2510,8 @@ msgid ""
 "This option is deprecated. Situations where refresh must be forced are now "
 "considered a bug. Please report."
 msgstr ""
-"Bu seçenek  artık kullanılmıyor. Yenilemeye zorlayan durumlar bug olarak "
-"değerlendirilir. Lütfen bildirin."
+"Bu seçenek artık kullanılmıyor. Yenilemenin zorlanması gereken durumlar "
+"artık hata olarak değerlendiriliyor. Lütfen bildirin."
 
 #: editor/editor_node.cpp
 msgid "Pick a Main Scene"
@@ -2734,16 +2752,12 @@ msgstr "TileSet ..."
 #: editor/editor_node.cpp editor/plugins/script_text_editor.cpp
 #: scene/gui/line_edit.cpp scene/gui/text_edit.cpp
 msgid "Undo"
-msgstr "Geri"
+msgstr "Geri al"
 
 #: editor/editor_node.cpp editor/plugins/script_text_editor.cpp
 #: scene/gui/line_edit.cpp scene/gui/text_edit.cpp
 msgid "Redo"
-msgstr "Geri"
-
-#: editor/editor_node.cpp
-msgid "Revert Scene"
-msgstr "Sahneyi Eski Durumuna Çevir"
+msgstr "Yeniden yap"
 
 #: editor/editor_node.cpp
 msgid "Miscellaneous project or scene-wide tools."
@@ -2908,7 +2922,7 @@ msgstr "Ekran Görüntüleri Düzenleyici Verileri/Ayarları Klasöründe saklan
 
 #: editor/editor_node.cpp
 msgid "Toggle Fullscreen"
-msgstr "Tam Ekran Aç / Kapat"
+msgstr "Tam Ekranı Aç/Kapat"
 
 #: editor/editor_node.cpp
 msgid "Toggle System Console"
@@ -2957,8 +2971,12 @@ msgid "Q&A"
 msgstr "S&C"
 
 #: editor/editor_node.cpp
-msgid "Issue Tracker"
-msgstr "Sorun İzleyici"
+msgid "Report a Bug"
+msgstr "Hata Bildir"
+
+#: editor/editor_node.cpp
+msgid "Send Docs Feedback"
+msgstr "Belgelendirme Hatası Bildir"
 
 #: editor/editor_node.cpp editor/plugins/asset_library_editor_plugin.cpp
 msgid "Community"
@@ -3068,8 +3086,14 @@ msgid ""
 "the \"Use Custom Build\" option should be enabled in the Android export "
 "preset."
 msgstr ""
-"Bu, kaynak şablonlarını \"res://android/build\" yoluna yükleyerek, projenizi "
-"isteğe dayalı Android inşasına ayarlayacaktır."
+"Bu, kaynak şablonunu \"res://android/build\" dizinine kurarak projenizi özel "
+"Android derlemeleri için ayarlayacaktır.\n"
+"Daha sonra dışa aktarırken değişiklikleri uygulayabilir ve kendi özel "
+"APK'nızı oluşturabilirsiniz (modül ekleme, AndroidManifest.xml dosyasını "
+"değiştirme vb.).\n"
+"Önceden oluşturulmuş APK'ları kullanmak yerine özel derlemeler yapmak için "
+"Android dışa aktarma ön ayarında \"Özel Derleme Kullan\" seçeneğinin "
+"etkinleştirilmesi gerektiğini unutmayın."
 
 #: editor/editor_node.cpp
 msgid ""
@@ -3116,11 +3140,11 @@ msgstr "Seç"
 
 #: editor/editor_node.cpp
 msgid "Open 2D Editor"
-msgstr "Düzenleyicide Aç"
+msgstr "2B Düzenleyiciyi Aç"
 
 #: editor/editor_node.cpp
 msgid "Open 3D Editor"
-msgstr "3B Düzenleyicide Aç"
+msgstr "3B Düzenleyiciyi Aç"
 
 #: editor/editor_node.cpp
 msgid "Open Script Editor"
@@ -3241,7 +3265,7 @@ msgstr "Katman"
 
 #: editor/editor_properties.cpp
 msgid "Bit %d, value %d"
-msgstr "Bit %d,  değer %d"
+msgstr "Bit %d, değer %d"
 
 #: editor/editor_properties.cpp
 msgid "[Empty]"
@@ -3382,6 +3406,12 @@ msgstr "Betik çalıştırılamadı:"
 #: editor/editor_run_script.cpp
 msgid "Did you forget the '_run' method?"
 msgstr "'_run()' metodunu unuttunuz mu?"
+
+#: editor/editor_spin_slider.cpp
+msgid "Hold Ctrl to round to integers. Hold Shift for more precise changes."
+msgstr ""
+"Tamsayılara yuvarlamak için Ctrl tuşunu basılı tutun. Hassas değişiklikler "
+"için Shift tuşunu basılı tutun."
 
 #: editor/editor_sub_scene.cpp
 msgid "Select Node(s) to Import"
@@ -3981,13 +4011,16 @@ msgid "Error running post-import script:"
 msgstr "sonradan-içe aktarılmış betik çalıştırılırken hata:"
 
 #: editor/import/resource_importer_scene.cpp
+msgid "Did you return a Node-derived object in the `post_import()` method?"
+msgstr "`Post_import ()` yönteminde Node türevi bir nesne döndürdünüz mü?"
+
+#: editor/import/resource_importer_scene.cpp
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
 #: editor/import_dock.cpp
-#, fuzzy
 msgid "%d Files"
-msgstr " Dosyalar"
+msgstr "%d Dosya"
 
 #: editor/import_dock.cpp
 msgid "Set as Default for '%s'"
@@ -4003,20 +4036,20 @@ msgstr "Şu Şekilde İçe Aktar:"
 
 #: editor/import_dock.cpp
 msgid "Preset"
-msgstr "Önayar"
+msgstr "Ön ayar"
 
 #: editor/import_dock.cpp
 msgid "Reimport"
 msgstr "Yeniden İçe Aktar"
 
 #: editor/import_dock.cpp
-msgid "Save scenes, re-import and restart"
+msgid "Save Scenes, Re-Import, and Restart"
 msgstr "Sahneleri kaydet, tekrar içe aktar ve baştan başlat"
 
 #: editor/import_dock.cpp
 msgid "Changing the type of an imported file requires editor restart."
 msgstr ""
-"İçe aktarılmış dosyanın tipini değiştirmek editörü baştan başlatılmasını "
+"İçe aktarılmış dosyanın tipini değiştirmek editörü yeniden başlatmanı "
 "gerektiriyor."
 
 #: editor/import_dock.cpp
@@ -4046,10 +4079,6 @@ msgstr "Farklı Kaydet..."
 #: editor/inspector_dock.cpp
 msgid "Copy Params"
 msgstr "Değişkenleri Tıpkıla"
-
-#: editor/inspector_dock.cpp
-msgid "Paste Params"
-msgstr "Parametreleri Yapıştır"
 
 #: editor/inspector_dock.cpp
 msgid "Edit Resource Clipboard"
@@ -4440,7 +4469,7 @@ msgstr "Süzgeçlenmiş Parçaları Düzenle:"
 
 #: editor/plugins/animation_blend_tree_editor_plugin.cpp
 msgid "Enable Filtering"
-msgstr "Süzgeçlemeyi  Aç"
+msgstr "Süzgeçlemeyi Aç"
 
 #: editor/plugins/animation_player_editor_plugin.cpp
 msgid "Toggle Autoplay"
@@ -5380,7 +5409,7 @@ msgstr ""
 #: editor/plugins/texture_region_editor_plugin.cpp
 #: editor/plugins/tile_set_editor_plugin.cpp scene/gui/graph_edit.cpp
 msgid "Zoom Reset"
-msgstr "Yakınlaşmayı Sıfırla"
+msgstr "Yakınlaştırmayı Sıfırla"
 
 #: editor/plugins/canvas_item_editor_plugin.cpp
 #: editor/plugins/spatial_editor_plugin.cpp
@@ -5835,7 +5864,7 @@ msgstr "Eğri Doğrusal Tanjantını Aç/Kapa"
 
 #: editor/plugins/curve_editor_plugin.cpp
 msgid "Hold Shift to edit tangents individually"
-msgstr "Tanjantları tek tek düzenlemek için Shift'e basılı tut"
+msgstr "Tanjantları bireysel olarak düzenlemek için Shift tuşuna basılı tutun"
 
 #: editor/plugins/curve_editor_plugin.cpp
 msgid "Right click to add point"
@@ -5870,9 +5899,8 @@ msgid "Mesh is empty!"
 msgstr "Örüntü boş!"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
 msgid "Couldn't create a Trimesh collision shape."
-msgstr "Üçlü Örüntü Çarpışma Kardeşi Oluştur"
+msgstr "Üçlü Örüntü çarpışma yüzeyi oluşturulamadı."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Create Static Trimesh Body"
@@ -5888,30 +5916,27 @@ msgstr "Üçlü Örüntü Yüzeyi Oluştur"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Can't create a single convex collision shape for the scene root."
-msgstr ""
+msgstr "Sahne kökü için tek bir dışbükey çarpışma şekli oluşturulamaz."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Couldn't create a single convex collision shape."
-msgstr ""
+msgstr "Tek dışbükey çarpışma şekli oluşturulamadı."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
 msgid "Create Single Convex Shape"
-msgstr "Dışbükey Şekil[ler] Oluştur"
+msgstr "Tekil Dışbükey Şekil Oluştur"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Can't create multiple convex collision shapes for the scene root."
-msgstr ""
+msgstr "Sahne kökü için birden fazla dışbükey çarpışma şekli oluşturulamaz."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
 msgid "Couldn't create any collision shapes."
-msgstr "Klasör oluşturulamadı."
+msgstr "Herhangi bir çarpışma şekli oluşturulamadı."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
 msgid "Create Multiple Convex Shapes"
-msgstr "Dışbükey Şekil[ler] Oluştur"
+msgstr "Çoklu Dışbükey Şekiller Oluştur"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Create Navigation Mesh"
@@ -5967,6 +5992,9 @@ msgid ""
 "automatically.\n"
 "This is the most accurate (but slowest) option for collision detection."
 msgstr ""
+"Bir StaticBody oluşturur ve otomatik olarak çokgen tabanlı bir çarpışma "
+"şekli atar.\n"
+"Bu, çarpışma tespiti için en doğru (ancak en yavaş) seçenektir."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Create Trimesh Collision Sibling"
@@ -5977,10 +6005,11 @@ msgid ""
 "Creates a polygon-based collision shape.\n"
 "This is the most accurate (but slowest) option for collision detection."
 msgstr ""
+"Poligon bazlı bir çarpışma şekli oluştur.\n"
+"Bu en hassas (fakat en yavaş) çarpışma algılama seçeneğidir."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
-msgid "Create Single Convex Collision Siblings"
+msgid "Create Single Convex Collision Sibling"
 msgstr "Dışbükey Çarpışma Komşusu Oluştur"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
@@ -5988,17 +6017,20 @@ msgid ""
 "Creates a single convex collision shape.\n"
 "This is the fastest (but least accurate) option for collision detection."
 msgstr ""
+"Tek bir dışbükey çarpışma şekli oluşturur.\n"
+"Bu, çarpışma tespiti için en hızlı (ancak en az doğru) seçenektir."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
-#, fuzzy
 msgid "Create Multiple Convex Collision Siblings"
-msgstr "Dışbükey Çarpışma Komşusu Oluştur"
+msgstr "Dışbükey Çarpışma Komşuları Oluştur"
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid ""
 "Creates a polygon-based collision shape.\n"
 "This is a performance middle-ground between the two above options."
 msgstr ""
+"Poligon bazlı bir çarpışma şekli oluştur.\n"
+"Bu performans açısından üstteki iki seçeneğin arasındadır."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "Create Outline Mesh..."
@@ -6011,6 +6043,10 @@ msgid ""
 "This can be used instead of the SpatialMaterial Grow property when using "
 "that property isn't possible."
 msgstr ""
+"Durgun bir anahat kafesi oluşturur. Anahat kafesi normalleri otomatik olarak "
+"döndürülecekdir.\n"
+"Bu SpatialMaterial Grow özelliği kullanılamadığı zaman onun yerine "
+"kullanılabilir."
 
 #: editor/plugins/mesh_instance_editor_plugin.cpp
 msgid "View UV1"
@@ -6859,14 +6895,6 @@ msgid "Open Godot online documentation."
 msgstr "Çevrimiçi Godot dökümanlarını aç."
 
 #: editor/plugins/script_editor_plugin.cpp
-msgid "Request Docs"
-msgstr "Belgeleri İste"
-
-#: editor/plugins/script_editor_plugin.cpp
-msgid "Help improve the Godot documentation by giving feedback."
-msgstr "Dönüt vererek Godot belgelerini iyileştirmeye yardımcı olun."
-
-#: editor/plugins/script_editor_plugin.cpp
 msgid "Search the reference documentation."
 msgstr "Başvuru belgelerinde arama yap."
 
@@ -6931,12 +6959,12 @@ msgstr ""
 "'%s' düğümünden '%s' düğümüne, '%s' sinyali için '%s' bağlantı metodu eksik."
 
 #: editor/plugins/script_text_editor.cpp
-msgid "Line"
-msgstr "Satır"
+msgid "[Ignore]"
+msgstr "[Gözardı et]"
 
 #: editor/plugins/script_text_editor.cpp
-msgid "(ignore)"
-msgstr "(gözardı et)"
+msgid "Line"
+msgstr "Satır"
 
 #: editor/plugins/script_text_editor.cpp
 msgid "Go to Function"
@@ -7302,6 +7330,10 @@ msgid "This operation requires a single selected node."
 msgstr "Bu işlem, seçilmiş tek bir düğüm gerektirir."
 
 #: editor/plugins/spatial_editor_plugin.cpp
+msgid "Auto Orthogonal Enabled"
+msgstr "Otomatik Dikey Etkinleştirildi"
+
+#: editor/plugins/spatial_editor_plugin.cpp
 msgid "Lock View Rotation"
 msgstr "Dönüşü Görüntülemeyi kilitle"
 
@@ -7390,6 +7422,10 @@ msgid "Freelook Slow Modifier"
 msgstr "Serbestbakış Hız Değiştirici"
 
 #: editor/plugins/spatial_editor_plugin.cpp
+msgid "View Rotation Locked"
+msgstr "Dönme Kilitli Görünüm"
+
+#: editor/plugins/spatial_editor_plugin.cpp
 msgid ""
 "Note: The FPS value displayed is the editor's framerate.\n"
 "It cannot be used as a reliable indication of in-game performance."
@@ -7398,12 +7434,22 @@ msgstr ""
 "Oyun içi performansın gösteri olarak ele alınamaz."
 
 #: editor/plugins/spatial_editor_plugin.cpp
-msgid "View Rotation Locked"
-msgstr "Dönme Kilitli Görünüm"
-
-#: editor/plugins/spatial_editor_plugin.cpp
 msgid "XForm Dialog"
 msgstr "XForm İletişim Kutusu"
+
+#: editor/plugins/spatial_editor_plugin.cpp
+msgid ""
+"Click to toggle between visibility states.\n"
+"\n"
+"Open eye: Gizmo is visible.\n"
+"Closed eye: Gizmo is hidden.\n"
+"Half-open eye: Gizmo is also visible through opaque surfaces (\"x-ray\")."
+msgstr ""
+"Görünürlük ifadelerini değiştirmek için tıklayın.\n"
+"\n"
+"Açık göz: Gizmo görünür.\n"
+"Kapalı göz: Gizmo görünmez.\n"
+"Yarı-açık göz: Gizmo aynı zamanda saydam yüzeylerden görünür (\"x-ray\")."
 
 #: editor/plugins/spatial_editor_plugin.cpp
 msgid "Snap Nodes To Floor"
@@ -9584,32 +9630,27 @@ msgid "Export With Debug"
 msgstr "Hata Ayıklama İle Dışa Aktar"
 
 #: editor/project_manager.cpp
-#, fuzzy
 msgid "The path specified doesn't exist."
-msgstr "Yol mevcut değil."
+msgstr "Belirtilen yol mevcut değil."
 
 #: editor/project_manager.cpp
-#, fuzzy
 msgid "Error opening package file (it's not in ZIP format)."
-msgstr "Paket dosyası açılırken hata oluştu, zip formatında değil."
+msgstr "Paket dosyası açılırken hata (ZIP formatında değil)."
 
 #: editor/project_manager.cpp
-#, fuzzy
 msgid ""
 "Invalid \".zip\" project file; it doesn't contain a \"project.godot\" file."
-msgstr "Geçersiz '.zip' proje dosyası, 'project.godot' dosyası içermiyor."
+msgstr "Geçersiz \".zip\" proje dosyası; \"project.godot\" dosyası içermiyor."
 
 #: editor/project_manager.cpp
 msgid "Please choose an empty folder."
 msgstr "Lütfen boş bir klasör seçin."
 
 #: editor/project_manager.cpp
-#, fuzzy
 msgid "Please choose a \"project.godot\" or \".zip\" file."
-msgstr "Lütfen bir 'project.godot' veya '.zip' dosyası seçin."
+msgstr "Lütfen bir \"project.godot\" veya \".zip\" dosyası seçin."
 
 #: editor/project_manager.cpp
-#, fuzzy
 msgid "This directory already contains a Godot project."
 msgstr "Bu dizinde zaten bir Godot projesi var."
 
@@ -9871,6 +9912,7 @@ msgstr ""
 "misiniz?\n"
 "Bu biraz zaman alabilir."
 
+#. TRANSLATORS: This refers to the application where users manage their Godot projects.
 #: editor/project_manager.cpp
 msgid "Project Manager"
 msgstr "Proje Yöneticisi"
@@ -9918,6 +9960,16 @@ msgid ""
 msgstr ""
 "Herhangi bir projen yok.\n"
 "Varlık Kütüphanesi'ndeki resmî örnek projeleri incelemek ister misin?"
+
+#: editor/project_manager.cpp
+msgid ""
+"The search box filters projects by name and last path component.\n"
+"To filter projects by name and full path, the query must contain at least "
+"one `/` character."
+msgstr ""
+"Arama kutusu, projeleri adına ve son yol bileşenine göre filtreler.\n"
+"Projeleri adına ve tam yoluna göre filtrelemek için, sorgunun en az bir `/` "
+"karakteri içermesi gereklidir."
 
 #: editor/project_settings_editor.cpp
 msgid "Key "
@@ -10072,7 +10124,7 @@ msgstr "'%s' özelliği mevcut değil."
 
 #: editor/project_settings_editor.cpp
 msgid "Setting '%s' is internal, and it can't be deleted."
-msgstr "Ayar '%s' dahilidir  silinemez."
+msgstr "'%s' ayarı dahilidir ve silinemez."
 
 #: editor/project_settings_editor.cpp
 msgid "Delete Item"
@@ -10281,7 +10333,7 @@ msgstr "Bir Düğüm Seç"
 
 #: editor/property_editor.cpp
 msgid "Bit %d, val %d."
-msgstr "Bit %d,  val %d."
+msgstr "Bit %d, değer %d."
 
 #: editor/property_selector.cpp
 msgid "Select Property"
@@ -10308,9 +10360,8 @@ msgid "Suffix"
 msgstr "Son Ek"
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "Use Regular Expressions"
-msgstr "Düzenli İfadeler"
+msgstr "Düzenli İfadeler Kullan"
 
 #: editor/rename_dialog.cpp
 msgid "Advanced Options"
@@ -10349,9 +10400,8 @@ msgstr ""
 "Sayaç seçeneklerini karşılaştırın."
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "Per-level Counter"
-msgstr "Seviye Başına sayaç"
+msgstr "Seviye Başına Sayaç"
 
 #: editor/rename_dialog.cpp
 msgid "If set the counter restarts for each group of child nodes"
@@ -10390,12 +10440,10 @@ msgid "Keep"
 msgstr "Tut"
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "PascalCase to snake_case"
 msgstr "DeveŞekilli'den alt_tireli'ye dönüştür"
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "snake_case to PascalCase"
 msgstr "alt_tireli'den DeveŞekilli'ye dönüştür"
 
@@ -10416,14 +10464,12 @@ msgid "Reset"
 msgstr "Sıfırla"
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "Regular Expression Error"
-msgstr "Düzenli İfadeler"
+msgstr "Düzenli İfade Hatası"
 
 #: editor/rename_dialog.cpp
-#, fuzzy
 msgid "At character %s"
-msgstr "Geçerli karakterler:"
+msgstr "%s karakterinde"
 
 #: editor/reparent_dialog.cpp editor/scene_tree_dock.cpp
 msgid "Reparent Node"
@@ -10490,8 +10536,8 @@ msgid "Instance Child Scene"
 msgstr "Çocuk Sahnesini Örnekle"
 
 #: editor/scene_tree_dock.cpp
-msgid "Clear Script"
-msgstr "Betiği Temizle"
+msgid "Detach Script"
+msgstr "Betiği Ayır"
 
 #: editor/scene_tree_dock.cpp
 msgid "This operation can't be done on the tree root."
@@ -10526,6 +10572,10 @@ msgstr "Örneklenen sahneler kök olamaz"
 #: editor/scene_tree_dock.cpp
 msgid "Make node as Root"
 msgstr "Düğümü Kök düğüm yap"
+
+#: editor/scene_tree_dock.cpp
+msgid "Delete %d nodes and any children?"
+msgstr "\"%s\" düğümü ve alt düğümleri silinsin mi?"
 
 #: editor/scene_tree_dock.cpp
 msgid "Delete %d nodes?"
@@ -10656,6 +10706,15 @@ msgid "Open Documentation"
 msgstr "Klavuzu Aç"
 
 #: editor/scene_tree_dock.cpp
+msgid ""
+"Cannot attach a script: there are no languages registered.\n"
+"This is probably because this editor was built with all language modules "
+"disabled."
+msgstr ""
+"Bir yazı eklenemiyor: kayıtlı dil yok.\n"
+"Bu muhtemelen editor tüm dil modülleri kapalıyken kurulduğu için oldu."
+
+#: editor/scene_tree_dock.cpp
 msgid "Add Child Node"
 msgstr "Çocuk Düğüm Ekle"
 
@@ -10704,12 +10763,12 @@ msgstr ""
 "alınmış bir sahne oluşturur."
 
 #: editor/scene_tree_dock.cpp
-msgid "Attach a new or existing script for the selected node."
-msgstr "Seçili düğüm için yeni veya mevcut bir betik iliştir."
+msgid "Attach a new or existing script to the selected node."
+msgstr "Seçili düğüme yeni veya mevcut bir betik iliştir."
 
 #: editor/scene_tree_dock.cpp
-msgid "Clear a script for the selected node."
-msgstr "Seçilen düğüm için betik temizle."
+msgid "Detach the script from the selected node."
+msgstr "Seçilen düğümden betiği ayır."
 
 #: editor/scene_tree_dock.cpp
 msgid "Remote"
@@ -10840,6 +10899,10 @@ msgid "A directory with the same name exists."
 msgstr "Aynı isimde dizin zaten var."
 
 #: editor/script_create_dialog.cpp
+msgid "File does not exist."
+msgstr "Dosya yok."
+
+#: editor/script_create_dialog.cpp
 msgid "Invalid extension."
 msgstr "Geçersiz uzantı."
 
@@ -10880,6 +10943,10 @@ msgid "File exists, it will be reused."
 msgstr "Dosya mevcut, yeniden kullanılacak."
 
 #: editor/script_create_dialog.cpp
+msgid "Invalid path."
+msgstr "Geçersiz yol."
+
+#: editor/script_create_dialog.cpp
 msgid "Invalid class name."
 msgstr "Geçersiz sınıf ismi."
 
@@ -10888,9 +10955,8 @@ msgid "Invalid inherited parent name or path."
 msgstr "Geçersiz devralınan üst ad veya yol."
 
 #: editor/script_create_dialog.cpp
-#, fuzzy
 msgid "Script path/name is valid."
-msgstr "Betik geçerli."
+msgstr "Betik yolu/adı geçerli."
 
 #: editor/script_create_dialog.cpp
 msgid "Allowed: a-z, A-Z, 0-9, _ and ."
@@ -10911,6 +10977,14 @@ msgstr "Mevcut betik dosyasını yükle."
 #: editor/script_create_dialog.cpp
 msgid "Script file already exists."
 msgstr "Betik dosyası zaten mevcut."
+
+#: editor/script_create_dialog.cpp
+msgid ""
+"Note: Built-in scripts have some limitations and can't be edited using an "
+"external editor."
+msgstr ""
+"Not: Gömülü betikler bazı sınırlandırmalara mahsustur ve dış bir düzenleyici "
+"ile düzenlenemezler."
 
 #: editor/script_create_dialog.cpp
 msgid "Class Name:"
@@ -10981,7 +11055,6 @@ msgid "Copy Error"
 msgstr "Hatayı Kopyala"
 
 #: editor/script_editor_debugger.cpp
-#, fuzzy
 msgid "Video RAM"
 msgstr "Görüntü Belleği"
 
@@ -11032,6 +11105,10 @@ msgstr "Kaynağa Göre İzleti Belleği Kullanımının Dizelgesi:"
 #: editor/script_editor_debugger.cpp
 msgid "Total:"
 msgstr "Toplam:"
+
+#: editor/script_editor_debugger.cpp
+msgid "Export list to a CSV file"
+msgstr "Listeyi CSV dosyasına aktar"
 
 #: editor/script_editor_debugger.cpp
 msgid "Resource Path"
@@ -11913,6 +11990,13 @@ msgstr ""
 "yapılandırılmamış."
 
 #: platform/android/export/export.cpp
+#, fuzzy
+msgid "Release keystore incorrectly configured in the export preset."
+msgstr ""
+"Anahtar deposunda Hata Ayıklayıcı Ayarları'nda veya ön ayarda "
+"yapılandırılmamış."
+
+#: platform/android/export/export.cpp
 msgid "Custom build requires a valid Android SDK path in Editor Settings."
 msgstr ""
 "Özel derleme için Editör Ayarları'nda geçerli bir Android SDK yolu gerekir."
@@ -11935,6 +12019,33 @@ msgstr "APK genişletmesi için geçersiz ortak anahtar."
 #: platform/android/export/export.cpp
 msgid "Invalid package name:"
 msgstr "Geçersiz paket ismi:"
+
+#: platform/android/export/export.cpp
+msgid ""
+"Invalid \"GodotPaymentV3\" module included in the \"android/modules\" "
+"project setting (changed in Godot 3.2.2).\n"
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid "\"Use Custom Build\" must be enabled to use the plugins."
+msgstr ""
+"Eklentileri kullanabilmek için \"Özel Derleme Kullan\" seçeneği aktif olmalı."
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Degrees Of Freedom\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR"
+"\"."
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Hand Tracking\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR\"."
+msgstr ""
+
+#: platform/android/export/export.cpp
+msgid ""
+"\"Focus Awareness\" is only valid when \"Xr Mode\" is \"Oculus Mobile VR\"."
+msgstr ""
 
 #: platform/android/export/export.cpp
 msgid ""
@@ -12143,6 +12254,12 @@ msgid ""
 msgstr ""
 "CollisionShape2D'nin işlevini yerine getirmesi için ona bir şekil sağlanması "
 "gerekmektedir. Lütfen onun için bir şekil kaynağı oluşturun!"
+
+#: scene/2d/collision_shape_2d.cpp
+msgid ""
+"Polygon-based shapes are not meant be used nor edited directly through the "
+"CollisionShape2D node. Please use the CollisionPolygon2D node instead."
+msgstr ""
 
 #: scene/2d/cpu_particles_2d.cpp
 msgid ""
@@ -12380,6 +12497,12 @@ msgid ""
 msgstr ""
 "Düzlem şekli iyi çalışmıyor ve gelecek versiyonlarda çıkarılacak. Lütfen "
 "kullanmayın."
+
+#: scene/3d/collision_shape.cpp
+msgid ""
+"ConcavePolygonShape doesn't support RigidBody in another mode than static."
+msgstr ""
+"ConcavePolygonShape static dışında bir modda RigidBody'i desteklemiyor."
 
 #: scene/3d/cpu_particles.cpp
 msgid "Nothing is visible because no mesh has been assigned."
@@ -12679,6 +12802,11 @@ msgstr ""
 "yapın böylece bir boyut elde edebilir. Aksi takdirde, Görüntüleme için bunu "
 "bir RenderTarget yap ve dahili dokusunu herhangi bir düğüme ata."
 
+#: scene/main/viewport.cpp
+msgid "Viewport size must be greater than 0 to render anything."
+msgstr ""
+"Herhangi bir şeyi işlemek için görüntükapısı boyutu 0'dan büyük olmalıdır."
+
 #: scene/resources/visual_shader_nodes.cpp
 msgid "Invalid source for preview."
 msgstr "Önizleme için geçersiz kaynak."
@@ -12706,6 +12834,34 @@ msgstr "varyings yalnızca vertex işlevinde atanabilir."
 #: servers/visual/shader_language.cpp
 msgid "Constants cannot be modified."
 msgstr "Sabit değerler değiştirilemez."
+
+#~ msgid "Current scene was never saved, please save it prior to running."
+#~ msgstr ""
+#~ "Şimdiki sahne hiç kaydedilmedi, lütfen çalıştırmadan önce kaydediniz."
+
+#~ msgid "Not in resource path."
+#~ msgstr "Kaynak yolunda değil."
+
+#~ msgid "Revert"
+#~ msgstr "Geri dön"
+
+#~ msgid "This action cannot be undone. Revert anyway?"
+#~ msgstr "Bu eylem geri alınamaz. Yine de geri dönsün mü?"
+
+#~ msgid "Revert Scene"
+#~ msgstr "Sahneyi Eski Durumuna Çevir"
+
+#~ msgid "Clear Script"
+#~ msgstr "Betiği Temizle"
+
+#~ msgid "Issue Tracker"
+#~ msgstr "Sorun İzleyici"
+
+#~ msgid "Request Docs"
+#~ msgstr "Belgeleri İste"
+
+#~ msgid "Help improve the Godot documentation by giving feedback."
+#~ msgstr "Dönüt vererek Godot belgelerini iyileştirmeye yardımcı olun."
 
 #~ msgid "Replaced %d occurrence(s)."
 #~ msgstr "%d değişiklik gerçekleştirildi."

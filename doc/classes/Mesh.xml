@@ -10,10 +10,10 @@
 	</tutorials>
 	<methods>
 		<method name="create_convex_shape" qualifiers="const">
-			<return type="Shape">
+			<return type="Shape3D">
 			</return>
 			<description>
-				Calculate a [ConvexPolygonShape] from the mesh.
+				Calculate a [ConvexPolygonShape3D] from the mesh.
 			</description>
 		</method>
 		<method name="create_outline" qualifiers="const">
@@ -27,10 +27,10 @@
 			</description>
 		</method>
 		<method name="create_trimesh_shape" qualifiers="const">
-			<return type="Shape">
+			<return type="Shape3D">
 			</return>
 			<description>
-				Calculate a [ConcavePolygonShape] from the mesh.
+				Calculate a [ConcavePolygonShape3D] from the mesh.
 			</description>
 		</method>
 		<method name="generate_triangle_mesh" qualifiers="const">
@@ -102,7 +102,7 @@
 		</method>
 	</methods>
 	<members>
-		<member name="lightmap_size_hint" type="Vector2" setter="set_lightmap_size_hint" getter="get_lightmap_size_hint" default="Vector2( 0, 0 )">
+		<member name="lightmap_size_hint" type="Vector2i" setter="set_lightmap_size_hint" getter="get_lightmap_size_hint" default="Vector2i( 0, 0 )">
 			Sets a hint to be used for lightmap resolution.
 		</member>
 	</members>

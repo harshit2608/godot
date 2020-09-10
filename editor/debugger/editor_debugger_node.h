@@ -31,16 +31,28 @@
 #ifndef EDITOR_DEBUGGER_NODE_H
 #define EDITOR_DEBUGGER_NODE_H
 
-#include "core/io/tcp_server.h"
-#include "editor/debugger/script_editor_debugger.h"
-#include "scene/gui/button.h"
-#include "scene/gui/tab_container.h"
+#include "editor/debugger/editor_debugger_server.h"
+#include "scene/gui/margin_container.h"
 
+class Button;
 class EditorDebuggerTree;
+class EditorDebuggerRemoteObject;
+class MenuButton;
+class ScriptEditorDebugger;
+class TabContainer;
 
 class EditorDebuggerNode : public MarginContainer {
-
 	GDCLASS(EditorDebuggerNode, MarginContainer);
+
+public:
+	enum CameraOverride {
+		OVERRIDE_NONE,
+		OVERRIDE_2D,
+		OVERRIDE_3D_1, // 3D Viewport 1
+		OVERRIDE_3D_2, // 3D Viewport 2
+		OVERRIDE_3D_3, // 3D Viewport 3
+		OVERRIDE_3D_4 // 3D Viewport 4
+	};
 
 private:
 	enum Options {
@@ -58,12 +70,13 @@ private:
 		int line = 0;
 
 		bool operator<(const Breakpoint &p_b) const {
-			if (line == p_b.line)
+			if (line == p_b.line) {
 				return source < p_b.source;
+			}
 			return line < p_b.line;
 		}
 
-		Breakpoint(){};
+		Breakpoint() {}
 
 		Breakpoint(const String &p_source, int p_line) {
 			line = p_line;
@@ -71,10 +84,10 @@ private:
 		}
 	};
 
-	Ref<TCP_Server> server = NULL;
-	TabContainer *tabs = NULL;
-	Button *debugger_button = NULL;
-	MenuButton *script_menu = NULL;
+	Ref<EditorDebuggerServer> server;
+	TabContainer *tabs = nullptr;
+	Button *debugger_button = nullptr;
+	MenuButton *script_menu = nullptr;
 
 	Ref<Script> stack_script; // Why?!?
 
@@ -82,13 +95,15 @@ private:
 	int last_warning_count = 0;
 
 	float inspect_edited_object_timeout = 0;
-	EditorDebuggerTree *remote_scene_tree = NULL;
+	EditorDebuggerTree *remote_scene_tree = nullptr;
 	float remote_scene_tree_timeout = 0.0;
 	bool auto_switch_remote_scene_tree = false;
 	bool debug_with_external_editor = false;
 	bool hide_on_stop = true;
-	ScriptEditorDebugger::CameraOverride camera_override = ScriptEditorDebugger::OVERRIDE_NONE;
+	CameraOverride camera_override = OVERRIDE_NONE;
 	Map<Breakpoint, bool> breakpoints;
+
+	Set<Ref<Script>> debugger_plugins;
 
 	ScriptEditorDebugger *_add_debugger();
 	EditorDebuggerRemoteObject *get_inspected_remote_object();
@@ -130,10 +145,10 @@ public:
 	ScriptEditorDebugger *get_default_debugger() const;
 	ScriptEditorDebugger *get_debugger(int p_debugger) const;
 
-	void debug_next() { get_default_debugger()->debug_next(); }
-	void debug_step() { get_default_debugger()->debug_step(); }
-	void debug_break() { get_default_debugger()->debug_break(); }
-	void debug_continue() { get_default_debugger()->debug_continue(); }
+	void debug_next();
+	void debug_step();
+	void debug_break();
+	void debug_continue();
 
 	void set_script_debug_button(MenuButton *p_button);
 
@@ -141,7 +156,7 @@ public:
 		debugger_button = p_button;
 	}
 
-	String get_var_value(const String &p_var) const { return get_default_debugger()->get_var_value(p_var); }
+	String get_var_value(const String &p_var) const;
 	Ref<Script> get_dump_stack_script() const { return stack_script; } // Why do we need this?
 
 	bool get_debug_with_external_editor() { return debug_with_external_editor; }
@@ -167,11 +182,14 @@ public:
 	void live_debug_reparent_node(const NodePath &p_at, const NodePath &p_new_place, const String &p_new_name, int p_at_pos);
 
 	// Camera
-	void set_camera_override(ScriptEditorDebugger::CameraOverride p_override) { camera_override = p_override; }
-	ScriptEditorDebugger::CameraOverride get_camera_override() { return camera_override; }
+	void set_camera_override(CameraOverride p_override) { camera_override = p_override; }
+	CameraOverride get_camera_override() { return camera_override; }
 
-	Error start();
+	Error start(const String &p_protocol = "tcp://");
 
 	void stop();
+
+	void add_debugger_plugin(const Ref<Script> &p_script);
+	void remove_debugger_plugin(const Ref<Script> &p_script);
 };
 #endif // EDITOR_DEBUGGER_NODE_H

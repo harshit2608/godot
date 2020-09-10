@@ -36,7 +36,7 @@ namespace GodotTools.Ides.Rider
                 {
                     return CollectRiderInfosMac();
                 }
-                if (OS.IsUnixLike())
+                if (OS.IsUnixLike)
                 {
                     return CollectAllRiderPathsLinux();
                 }
@@ -141,16 +141,16 @@ namespace GodotTools.Ides.Rider
             if (OS.IsOSX)
             {
                 var home = Environment.GetEnvironmentVariable("HOME");
-                if (string.IsNullOrEmpty(home)) 
+                if (string.IsNullOrEmpty(home))
                     return string.Empty;
                 var localAppData = Path.Combine(home, @"Library/Application Support");
                 return GetToolboxRiderRootPath(localAppData);
             }
 
-            if (OS.IsUnixLike())
+            if (OS.IsUnixLike)
             {
                 var home = Environment.GetEnvironmentVariable("HOME");
-                if (string.IsNullOrEmpty(home)) 
+                if (string.IsNullOrEmpty(home))
                     return string.Empty;
                 var localAppData = Path.Combine(home, @".local/share");
                 return GetToolboxRiderRootPath(localAppData);
@@ -162,7 +162,7 @@ namespace GodotTools.Ides.Rider
 
         private static string GetToolboxRiderRootPath(string localAppData)
         {
-            var toolboxPath = Path.Combine(localAppData, @"JetBrains\Toolbox");
+            var toolboxPath = Path.Combine(localAppData, @"JetBrains/Toolbox");
             var settingsJson = Path.Combine(toolboxPath, ".settings.json");
 
             if (File.Exists(settingsJson))
@@ -172,7 +172,7 @@ namespace GodotTools.Ides.Rider
                     toolboxPath = path;
             }
 
-            var toolboxRiderRootPath = Path.Combine(toolboxPath, @"apps\Rider");
+            var toolboxRiderRootPath = Path.Combine(toolboxPath, @"apps/Rider");
             return toolboxRiderRootPath;
         }
 
@@ -209,7 +209,7 @@ namespace GodotTools.Ides.Rider
 
         private static string GetRelativePathToBuildTxt()
         {
-            if (OS.IsWindows || OS.IsUnixLike())
+            if (OS.IsWindows || OS.IsUnixLike)
                 return "../../build.txt";
             if (OS.IsOSX)
                 return "Contents/Resources/build.txt";
@@ -218,20 +218,29 @@ namespace GodotTools.Ides.Rider
 
         private static void CollectPathsFromRegistry(string registryKey, List<string> installPaths)
         {
+            using (var key = Registry.CurrentUser.OpenSubKey(registryKey))
+            {
+                CollectPathsFromRegistry(installPaths, key);
+            }
             using (var key = Registry.LocalMachine.OpenSubKey(registryKey))
             {
-                if (key == null) return;
-                foreach (var subkeyName in key.GetSubKeyNames().Where(a => a.Contains("Rider")))
+                CollectPathsFromRegistry(installPaths, key);
+            }
+        }
+
+        private static void CollectPathsFromRegistry(List<string> installPaths, RegistryKey key)
+        {
+            if (key == null) return;
+            foreach (var subkeyName in key.GetSubKeyNames().Where(a => a.Contains("Rider")))
+            {
+                using (var subkey = key.OpenSubKey(subkeyName))
                 {
-                    using (var subkey = key.OpenSubKey(subkeyName))
-                    {
-                        var folderObject = subkey?.GetValue("InstallLocation");
-                        if (folderObject == null) continue;
-                        var folder = folderObject.ToString();
-                        var possiblePath = Path.Combine(folder, @"bin\rider64.exe");
-                        if (File.Exists(possiblePath))
-                            installPaths.Add(possiblePath);
-                    }
+                    var folderObject = subkey?.GetValue("InstallLocation");
+                    if (folderObject == null) continue;
+                    var folder = folderObject.ToString();
+                    var possiblePath = Path.Combine(folder, @"bin\rider64.exe");
+                    if (File.Exists(possiblePath))
+                        installPaths.Add(possiblePath);
                 }
             }
         }
@@ -313,7 +322,7 @@ namespace GodotTools.Ides.Rider
         class SettingsJson
         {
             public string install_location;
-      
+
             [CanBeNull]
             public static string GetInstallLocationFromJson(string json)
             {

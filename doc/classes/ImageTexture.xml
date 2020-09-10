@@ -5,6 +5,7 @@
 	</brief_description>
 	<description>
 		A [Texture2D] based on an [Image]. Can be created from an [Image] with [method create_from_image].
+		[b]Note:[/b] The maximum image size is 16384×16384 pixels due to graphics hardware limitations. Larger images will fail to import.
 	</description>
 	<tutorials>
 	</tutorials>
@@ -42,6 +43,7 @@
 			<argument index="1" name="immediate" type="bool" default="false">
 			</argument>
 			<description>
+				Replaces the texture's data with a new [code]image[/code]. If [code]immediate[/code] is [code]true[/code], it will take effect immediately after the call.
 			</description>
 		</method>
 	</methods>
